@@ -1,0 +1,21 @@
+Co je cloud computing a jaké problémy řeší oproti on-premise provozu?
+Co jsou modely IaaS, PaaS a SaaS a jak se liší na konkrétních příkladech?
+Jaké jsou další modely XaaS?
+Jaký je rozdíl mezi veřejným, privátním a hybridním cloudem?
+Co jsou základní principy návrhu aplikací pro cloudové prostředí?
+Jak cloud ovlivňuje architekturu aplikace?
+Jak fungují cloudové služby v kontextu PaaS?
+Jaké služby pro ukládání dat cloud nabízí?
+Co je virtualizace?
+Jaký je rozdíl mezi virtualizací a kontejnerizací a kdy byste co použili?
+Co je elasticita v cloudu?
+Co je horizontální a vertikální škálování v cloudu?
+Jak cloud zajišťuje vysokou dostupnost?
+Jak se v cloudu řeší výkonnost aplikací?
+Jak se v cloudu řeší škálovatelnost aplikací?
+Jak se v cloudu řeší dostupnost aplikací?
+Jak se v cloudu řeší bezpečnost aplikací a dat?
+Jak monitorovat cloudové aplikace?
+Jak cloud ovlivňuje náklady na provoz a jaké jsou typické nákladové pasti?
+Jaké problémy cloud řeší z pohledu provozu softwarových systémů?
+Jaké jsou typické příklady použití cloud computingu v praxi?

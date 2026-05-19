@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N-SWE OPS Flashcards</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0b1220;
+  --bg-accent:#111b31;
+  --panel:#10192a;
+  --panel-2:#17243b;
+  --panel-3:#20314d;
+  --line:#29415f;
+  --text:#edf3ff;
+  --muted:#98a7c2;
+  --muted-2:#6f7f9b;
+  --success:#2f8f4e;
+  --success-bg:#13281b;
+  --warn:#c98c2a;
+  --warn-bg:#2f2410;
+}
+body{
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at top right, rgba(72,126,255,.18), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(46,166,121,.14), transparent 24%),
+    linear-gradient(135deg, var(--bg), #0f1727 55%, #0d1523);
+  color:var(--text);
+  display:flex;
+  min-height:100vh;
+  overflow:hidden;
+}
+#sidebar{
+  width:300px;
+  min-width:300px;
+  background:rgba(9,14,24,.92);
+  backdrop-filter:blur(14px);
+  padding:20px 18px 24px;
+  overflow-y:auto;
+  border-right:1px solid rgba(124,156,207,.16);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  box-shadow:inset -1px 0 0 rgba(255,255,255,.03);
+}
+#sidebar h2{
+  font-size:.82rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+#sidebar label{
+  display:block;
+  font-size:.92rem;
+  line-height:1.35;
+  padding:10px 12px;
+  cursor:pointer;
+  border-radius:12px;
+  color:#cfdaed;
+  transition:background .15s,border-color .15s,color .15s,transform .15s;
+  border:1px solid transparent;
+}
+#sidebar label:has(input:checked){
+  color:#fff;
+  background:rgba(47,143,78,.14);
+  border-color:rgba(87,185,112,.32);
+}
+#sidebar label:hover{
+  background:rgba(41,65,95,.36);
+  border-color:rgba(124,156,207,.18);
+}
+#sidebar input{margin-right:8px;transform:translateY(1px)}
+#sidebar .sep{
+  font-size:.7rem;
+  color:var(--muted-2);
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid rgba(124,156,207,.12);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+#sidebar button{
+  display:block;
+  width:100%;
+  margin:0;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(124,156,207,.15);
+  background:var(--panel);
+  color:var(--text);
+  cursor:pointer;
+}
+.sidebar-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:4px;
+}
+.sidebar-actions button{
+  font-size:.84rem;
+  font-weight:600;
+}
+.sidebar-panel{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid rgba(124,156,207,.12);
+}
+.sidebar-panel h3{
+  font-size:.72rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:8px;
+}
+.queue-meta{
+  font-size:.8rem;
+  color:var(--muted-2);
+  margin-bottom:10px;
+}
+.mark-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.mark-item{
+  width:100%;
+  text-align:left;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(201,140,42,.18);
+  background:rgba(47,36,16,.52);
+  color:#ffe4b6;
+  cursor:pointer;
+  font-size:.87rem;
+  line-height:1.35;
+}
+.mark-item:hover{
+  border-color:rgba(201,140,42,.4);
+  background:rgba(58,43,19,.72);
+}
+.mark-item.active{
+  border-color:rgba(201,140,42,.62);
+  box-shadow:0 0 0 1px rgba(201,140,42,.24) inset;
+}
+.mark-item.done{
+  opacity:.6;
+}
+.mark-empty{
+  font-size:.85rem;
+  color:var(--muted-2);
+  padding:10px 12px;
+  border:1px dashed rgba(124,156,207,.15);
+  border-radius:12px;
+}
+#main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:32px;
+  overflow:auto;
+}
+.stats{
+  font-size:.98rem;
+  color:var(--muted);
+  margin:0 0 12px;
+  text-align:center;
+}
+.card{
+  border:1px solid rgba(124,156,207,.2);
+  border-radius:24px;
+  padding:40px 44px;
+  width:min(100%,920px);
+  min-height:360px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:clamp(1.8rem,2.3vw,2.55rem);
+  font-weight:650;
+  line-height:1.32;
+  letter-spacing:-.02em;
+  cursor:pointer;
+  user-select:none;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.03), transparent 25%),
+    linear-gradient(145deg, rgba(29,47,77,.96), rgba(16,27,46,.98));
+  box-shadow:0 24px 60px rgba(0,0,0,.28);
+  transition:transform .15s,background .15s,border-color .15s,box-shadow .15s;
+}
+.card:hover{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), transparent 25%),
+    linear-gradient(145deg, rgba(34,56,91,.98), rgba(18,31,52,.98));
+  box-shadow:0 28px 72px rgba(0,0,0,.34);
+}
+.card:active{transform:scale(.992)}
+.card.reviewed{
+  border-color:rgba(87,185,112,.35);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.02), transparent 25%),
+    linear-gradient(145deg, #193323, #102217);
+}
+.card.marked{
+  border-color:rgba(201,140,42,.42);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.02), transparent 25%),
+    linear-gradient(145deg, #342712, #241c0d);
+}
+#progress{
+  width:min(100%,920px);
+  height:10px;
+  background:rgba(41,65,95,.55);
+  border-radius:999px;
+  margin:0 0 16px;
+  overflow:hidden;
+}
+#progress div{
+  height:100%;
+  background:linear-gradient(90deg, #2f8f4e, #59c176);
+  border-radius:999px;
+  transition:width .15s;
+}
+.controls-bar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin:18px 0 10px;
+}
+.controls-bar button{
+  min-height:48px;
+  padding:12px 18px;
+  border:1px solid rgba(124,156,207,.18);
+  border-radius:14px;
+  cursor:pointer;
+  font-size:.95rem;
+  font-weight:600;
+  background:rgba(16,25,42,.84);
+  color:var(--text);
+  transition:transform .15s,background .15s,border-color .15s;
+}
+.controls-bar button:hover{
+  background:rgba(32,49,77,.95);
+  border-color:rgba(124,156,207,.3);
+}
+.controls-bar button:active{transform:scale(.97)}
+.controls-bar button.primary{
+  background:var(--success);
+  border-color:#59c176;
+  color:#fff;
+}
+.controls-bar button.warn{
+  background:var(--warn-bg);
+  border-color:rgba(201,140,42,.45);
+  color:#ffd99b;
+}
+.counter{
+  font-size:.95rem;
+  color:var(--muted);
+  margin-top:12px;
+}
+.hotkeys{
+  font-size:.8rem;
+  color:var(--muted-2);
+  margin-top:4px;
+  text-align:center;
+}
+#question{
+  max-width:24ch;
+  text-wrap:balance;
+}
+@media (max-width:900px){
+  body{flex-direction:column;overflow:auto}
+  #sidebar{
+    width:100%;
+    min-width:100%;
+    border-right:none;
+    border-bottom:1px solid rgba(124,156,207,.16);
+    padding:14px;
+  }
+  #main{padding:18px 14px 24px}
+  .card{
+    min-height:300px;
+    padding:28px 22px;
+    font-size:clamp(1.4rem,6vw,2rem);
+    border-radius:20px;
+  }
+  #question{max-width:100%}
+}
+</style>
+</head>
+<body>
+<div id="sidebar">
+  <h2>SWE-OPS Themes</h2>
+  <div class="sidebar-actions">
+    <button onclick="t('all')">All</button>
+    <button onclick="t('none')">None</button>
+  </div>
+  <span class="sep">Common Core</span>
+  <label><input type="checkbox" checked onchange="apply()"><span>1. Code Quality</span></label>
+  <label><input type="checkbox" checked onchange="apply()"><span>2. Software Engineering</span></label>
+  <label><input type="checkbox" checked onchange="apply()"><span>3. Databases</span></label>
+  <label><input type="checkbox" checked onchange="apply()"><span>4. Computer Networks</span></label>
+  <label><input type="checkbox" checked onchange="apply()"><span>5. Distributed Systems</span></label>
+  <span class="sep">OPS Specialization</span>
+  <label><input type="checkbox" checked onchange="apply()"><span>6. Development &amp; Deployment</span></label>
+  <label><input type="checkbox" checked onchange="apply()"><span>7. Secure Infrastructure</span></label>
+  <label><input type="checkbox" checked onchange="apply()"><span>8. Cloud Computing</span></label>
+  <label><input type="checkbox" checked onchange="apply()"><span>9. Operating Systems</span></label>
+  <label><input type="checkbox" checked onchange="apply()"><span>10. NoSQL Databases</span></label>
+  <div class="sidebar-panel">
+    <h3>Marked Queue</h3>
+    <div class="queue-meta" id="markMeta">0 marked questions</div>
+    <div class="mark-list" id="markList">
+      <div class="mark-empty">Mark questions to build a review queue.</div>
+    </div>
+  </div>
+</div>
+<div id="main">
+  <div class="stats" style="margin-bottom:8px" id="textStatus">Loading...</div>
+  <div id="progress"><div style="width:0%"></div></div>
+  <div class="card" id="card"><span id="question"></span></div>
+  <div class="counter" id="counter"></div>
+  <div class="controls-bar">
+    <button onclick="shuffleAll()">⟳ Shuffle</button>
+    <button onclick="mark()" class="warn">✦ Mark</button>
+    <button onclick="toggleReviewed()" class="primary" id="btnReview">Review ✓</button>
+    <button onclick="prev()">◀</button>
+    <button onclick="next()">▶</button>
+  </div>
+  <div class="hotkeys">Arrow keys or click card to advance | R=review | M=mark | S=shuffle</div>
+</div>
+
+<script>
+const TOPICS = [
+  {id:'SWE1', f:'SWE1_kvalita_kodu.txt'},
+  {id:'SWE2', f:'SWE2_softwarove_inzenyrstvi.txt'},
+  {id:'SWE3', f:'SWE3_databaze.txt'},
+  {id:'SWE4', f:'SWE4_pocitacove_site.txt'},
+  {id:'SWE5', f:'SWE5_distribuovane_systemy.txt'},
+  {id:'OPS1', f:'OPS1_vyvoj_a_nasazeni.txt'},
+  {id:'OPS2', f:'OPS2_bezpecna_infrastruktura.txt'},
+  {id:'OPS3', f:'OPS3_cloud_computing.txt'},
+  {id:'OPS4', f:'OPS4_operacni_systemy.txt'},
+  {id:'OPS5', f:'OPS5_nosql_databaze.txt'}
+];
+let questions=[], reviewed={}, marked={}, cursor=0;
+let isShuffled=false;
+const mainEl=document.getElementById('main');
+const STAT=document.getElementById('textStatus');
+const MARK_LIST=document.getElementById('markList');
+const MARK_META=document.getElementById('markMeta');
+
+window.t=(act)=>{
+  if(act==='all') document.querySelectorAll('#sidebar input[type=checkbox]').forEach(c=>c.checked=true);
+  if(act==='none') document.querySelectorAll('#sidebar input[type=checkbox]').forEach(c=>c.checked=false);
+  document.getElementById('textStatus').textContent = act==='none'?'0 questions loaded':'Loading...';
+  apply();
+};
+function apply(){
+  const ids = [];
+  document.querySelectorAll('#sidebar input[type=checkbox]').forEach((c,i)=>c.checked&&ids.push(i));
+  loadSelected(ids);
+}
+async function loadSelected(idxIds){
+  let qs = [];
+  reviewed = {}; marked = {}; cursor = 0; isShuffled = false;
+  try{
+    const base = window.location.href.replace(/index\.html$/,'');
+    for(let id of idxIds){
+      if(id>=0 && id<TOPICS.length){
+        const r = await fetch(base+'topics/'+TOPICS[id].f);
+        const txt = await r.text();
+        questions = qs = qs.concat(txt.split('\n').map(l=>l.trim()).filter(l=>l.length>0));
+      }
+    }
+    document.getElementById('textStatus').textContent = qs.length+' questions loaded from '+idxIds.length+' topics';
+  } catch(e){ 
+    qs = ['Could not load topic files — ensure /topics/ exists'];
+    STAT.textContent = 'Error loading'; 
+  }
+  questions = qs;
+  render();
+}
+function next(){for(let i=cursor+1;i<questions.length;i++){ if(!reviewed[i]){cursor=i;render();return; }} if(cursor>=0)render(); }
+function prev(){for(let i=cursor-1;i>=0;i--){ if(!reviewed[i]){cursor=i;render();return; }} }
+function toggleReviewed(){
+  if(!questions.length) return;
+  if(reviewed[cursor]){delete reviewed[cursor];render();}
+  else{reviewed[cursor]=true;delete marked[cursor];next();return;}
+}
+function mark(){
+  if(!questions.length) return;
+  if(marked[cursor]) delete marked[cursor];
+  else if(!reviewed[cursor]) marked[cursor]=true;
+  render();
+}
+function jumpToMarked(idx){
+  if(idx<0 || idx>=questions.length) return;
+  cursor = idx;
+  render();
+}
+function shuffleAll(){
+  for(let i=questions.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[questions[i],questions[j]]=[questions[j],questions[i]];}
+  reviewed={};marked={};cursor=0;isShuffled=true;render();
+}
+function renderMarkedQueue(){
+  const markedIndexes = Object.keys(marked).map(Number).sort((a,b)=>a-b);
+  MARK_META.textContent = markedIndexes.length+' marked question'+(markedIndexes.length===1?'':'s');
+  if(!markedIndexes.length){
+    MARK_LIST.innerHTML = '<div class="mark-empty">Mark questions to build a review queue.</div>';
+    return;
+  }
+  MARK_LIST.innerHTML = markedIndexes.map(i=>{
+    const state = reviewed[i] ? ' done' : '';
+    const active = i===cursor ? ' active' : '';
+    const label = questions[i] || 'Untitled question';
+    return '<button class="mark-item'+state+active+'" onclick="jumpToMarked('+i+')">'+label+'</button>';
+  }).join('');
+}
+function render(){
+  const done = Object.keys(reviewed).length;
+  const total = questions.length;
+  document.getElementById('textStatus').textContent = total>0?(done+' reviewed / '+(total-done)+' remaining ('+total+' total)'):'No questions loaded.';
+  document.getElementById('progress').querySelector('div').style.width = total>0 ? (done/total*100)+'%' : '0%';
+  if(!total){
+    document.getElementById('question').textContent = total===0?'No questions selected — pick themes in the sidebar':'—';
+    document.getElementById('counter').textContent = '';
+    document.getElementById('card').className = 'card';
+    document.getElementById('btnReview').textContent = 'Reviewed ✓';
+    renderMarkedQueue();
+    return;
+  }
+  const q = questions[cursor];
+  if(!reviewed[cursor]){ /* good */ }
+  document.getElementById('question').textContent = q || 'All done!';
+  document.getElementById('counter').textContent = (cursor+1)+' / '+total;
+  document.getElementById('card').className = 'card'+(reviewed[cursor]?' reviewed':'')+(marked[cursor]?' marked':'');
+  document.getElementById('btnReview').textContent = reviewed[cursor]?'Undo':'Reviewed ✓';
+  renderMarkedQueue();
+}
+document.addEventListener('keydown',e=>{
+  if(document.activeElement !== document.body) return;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'){ e.preventDefault(); next(); }
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp'){ e.preventDefault(); prev(); }
+  if(e.key==='r'||e.key==='R'){ e.preventDefault(); toggleReviewed(); }
+  if(e.key==='m'||e.key==='M'){ e.preventDefault(); mark(); }
+  if(e.key==='s'||e.key==='S'){ e.preventDefault(); shuffleAll(); }
+});
+loadSelected([0,1,2,3,4,5,6,7,8,9]);
+</script></body></html>

@@ -1,0 +1,27 @@
+Co je bezpečná infrastruktura?
+Jaké aspekty ovlivňují bezpečnost systému na úrovni infrastruktury?
+Co je síťová bezpečnost v kontextu infrastruktury?
+Jaké kyberbezpečnostní hrozby typicky cílí na infrastrukturu?
+Jaké jsou příklady útoků jako DDoS, MITM nebo phishing?
+Jak funguje firewall?
+Na jakých vrstvách OSI operuje firewall?
+Jaké existují typy firewallů?
+Co jsou IDS a IPS?
+Co je SIEM a bezpečnostní monitoring?
+Jak navrhovat bezpečnostní mechanismy v infrastruktuře?
+Co je vulnerability scanning?
+Jak se v infrastruktuře detekují zranitelnosti a jak s nimi dál pracovat?
+Co je exploit?
+Co je penetrační testování infrastruktury a co od něj realisticky čekat?
+Jak probíhá analýza bezpečnostního útoku nebo incidentu?
+Jaké bezpečnostní mechanismy existují na síťové úrovni?
+Jak fungují segmentace sítě, DMZ a zero trust přístup?
+Jak souvisí aktualizace, patch management a hardening se zabezpečením systému?
+Jak byste v praxi přistoupili k zabezpečení nově nasazovaného systému?
+Jak bezpečně spravovat identitu, účty a oprávnění v infrastruktuře?
+Jaké typy autentizace existují?
+Co je vícefaktorová autentizace?
+Jaký je rozdíl mezi autentizací a autorizací?
+Co je RBAC a ACL?
+Jak fungují TLS, VPN a certifikáty v infrastruktuře?
+Jak se řeší bezpečnost v cloudovém prostředí?

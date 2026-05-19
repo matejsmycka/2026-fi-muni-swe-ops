@@ -1,0 +1,30 @@
+Co je databáze a proč ji v praxi použít místo ukládání dat do souborů?
+Co je relační databáze?
+Jak funguje architektura relačních databází?
+Co je tabulka, relace, atribut a n-tice?
+Co je primární klíč a cizí klíč?
+Co je databázové schéma?
+Jaké části SQL rozlišujeme a k čemu slouží?
+Co je DDL a jaké příkazy do něj patří?
+Co je DML a jaké příkazy do něj patří?
+Jak se v SQL pracuje s transakcemi?
+Co je SELECT dotaz a z čeho se typicky skládá?
+Jaké typy JOINů existují a kdy byste je použili?
+Co jsou integritní omezení?
+Co je relační algebra a k čemu slouží?
+Co je selekce, projekce a kartézský součin v relační algebře?
+Co je transakce?
+Jak fungují vlastnosti ACID v databázových transakcích?
+Jaké jsou úrovně izolace transakcí?
+Co je deadlock a jak vzniká?
+Co je normalizace databáze?
+Co znamená 1NF, 2NF, 3NF a BCNF?
+Jak fungují indexy v databázích?
+Co je B+ strom, jak funguje a proč se používá pro indexaci?
+Co je hashování v databázích?
+Jaký je rozdíl mezi hustým a řídkým indexem?
+Jaký je rozdíl mezi indexováním a hashováním?
+Jak index ovlivňuje výkon čtení a zápisu?
+Jak probíhá vyhodnocení SQL dotazu?
+Co je logický a fyzický plán dotazu?
+Co je trigger, view a uložená procedura a kdy byste je v praxi použili?

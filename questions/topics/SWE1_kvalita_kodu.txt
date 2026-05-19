@@ -1,0 +1,38 @@
+Co je kvalita softwaru a jak byste ji vysvětlili na příkladu z praxe?
+Jaké atributy kvality softwaru znáte a jak se mohou dostávat do konfliktu?
+Jaké softwarové metriky se používají pro hodnocení kvality kódu a co reálně měří?
+Co měří cyklomatická složitost a jak se počítá?
+Co je refaktoring kódu, kdy ho dává smysl dělat a jaká má rizika?
+Jak souvisí coupling a cohesion s kvalitou, udržovatelností a testovatelností kódu?
+Jaké jsou principy Clean Code?
+Jaké jsou principy SOLID?
+Co znamená Single Responsibility Principle (SRP)?
+Co znamená Open/Closed Principle (OCP)?
+Co znamená Liskov Substitution Principle (LSP)?
+Co znamená Interface Segregation Principle (ISP)?
+Co znamená Dependency Inversion Principle (DIP)?
+Jaké taktiky se používají pro zajištění jednotlivých atributů kvality?
+Jaké taktiky podporují maintainability?
+Jaké taktiky podporují performance?
+Jaké taktiky podporují reliability?
+Jaké taktiky podporují testability?
+Jaké taktiky podporují security?
+Co je testování softwaru a proč samo o sobě nezaručuje kvalitu?
+Co testují jednotkové testy a co do nich naopak nepatří?
+Co testují integrační testy a kde typicky vznikají problémy?
+Co testují uživatelské testy a co z nich chceme zjistit?
+Co testují akceptační testy a kdo obvykle určuje jejich kritéria?
+Co testují systémové testy a jak se liší od integračních?
+Co je regression testing?
+Co je smoke testing?
+Co je výkonnostní testování a jaké typy výkonnostních testů znáte?
+Jaký je rozdíl mezi white-box a black-box testováním?
+Jaký je V-model testování?
+Co je validace a verifikace?
+Jaké existují integrační strategie testování?
+Jak funguje mocking?
+Jak byste systematicky postupovali při ladění chyby, kterou neumíte spolehlivě reprodukovat?
+Jak byste v praxi hledali bottleneck ve výkonu aplikace?
+Co je proces řízení kvality ve vývoji softwarových systémů?
+Jaké problémy vznikají bez automatických testů?
+Jak souvisí loose coupling a high cohesion s kvalitou a udržovatelností kódu?

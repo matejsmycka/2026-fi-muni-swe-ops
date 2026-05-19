@@ -1,0 +1,30 @@
+Co je softwarové inženýrství a čím se liší od samotného programování?
+Jaké jsou fáze životního cyklu softwaru a jaké výstupy typicky vznikají v jednotlivých fázích?
+Jaké existují modely životního cyklu softwaru a kdy se který hodí?
+Co je waterfall model a kdy může být pořád rozumná volba?
+Co je inkrementální model vývoje a jaké má výhody oproti waterfallu?
+Co je iterativní vývoj a jak se liší od inkrementálního?
+Co je spirálový model vývoje a proč je silně navázaný na řízení rizik?
+Co je Unified Process (UP)?
+Co je Rational Unified Process (RUP)?
+Jaké jsou fáze RUP?
+Jaké role, artefakty a činnosti jsou typické pro jednotlivé fáze RUP?
+Co je agilní vývoj softwaru a jaké problémy se snaží řešit?
+Jaké jsou principy agilního vývoje?
+Jaké existují agilní metodiky?
+Jak funguje Scrum v praxi?
+Jaké role existují ve Scrumu?
+Kdo je Product Owner?
+Kdo je Scrum Master?
+Co je sprint?
+Co je product backlog?
+Co je sprint backlog?
+Co jsou user stories a jak poznáte, že jsou napsané špatně?
+Jak se liší iterativní a inkrementální vývoj?
+Jak se liší agilní a prediktivní metodiky na konkrétním projektu?
+Jaká je role komunikace v softwarovém vývoji a co se pokazí, když nefunguje?
+Co znamená nasazení a provoz softwarových systémů z pohledu životního cyklu?
+Co je údržba softwarových systémů?
+Jaké existují typy údržby softwaru?
+Co je znovupoužitelnost softwaru?
+Co je proces řízení softwarového vývoje?

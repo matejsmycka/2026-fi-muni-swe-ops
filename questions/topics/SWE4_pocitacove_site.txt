@@ -1,0 +1,27 @@
+Co je počítačová síť a jaké jsou její základní koncepty, principy a architektury?
+Jaký je rozdíl mezi ISO/OSI a TCP/IP modelem?
+Jaké vrstvy mají modely ISO/OSI a TCP/IP?
+Jaké protokoly patří do jednotlivých vrstev?
+Co se přenáší na jednotlivých vrstvách?
+Co je IP protokol a jakou má roli při doručování paketů sítí?
+Co je IPv4 adresa?
+Jak se IPv6 liší od IPv4 a proč vzniklo IPv6?
+Co je CIDR notace a jak souvisí se subnettingem?
+Jaký je rozdíl mezi TCP a UDP?
+Jak funguje TCP handshake?
+Jak funguje retransmise v TCP?
+Co je flow control a congestion control?
+Co jsou DHCP, DNS a ARP?
+Jak funguje směrování v síti?
+Co je směrovací tabulka a jaké informace v ní typicky jsou?
+Jaký je rozdíl mezi statickým a dynamickým směrováním?
+Co je autonomní systém (AS)?
+Jaké základní principy a algoritmy se používají při směrování v sítích a čím se liší?
+Co je MTU a co je fragmentace?
+Co je peer-to-peer síť?
+Jaké jsou ad-hoc a senzorové sítě?
+Co jsou vysokorychlostní sítě?
+Jak souvisí počítačové sítě a multimédia z hlediska přenosu dat a požadavků na síť?
+Jak byste popsali, co se děje v síti, když se například nahrává fotka z telefonu do cloudu?
+Jaké bezpečnostní mechanismy se používají v sítích jako praktické příklady síťových protokolů?
+Co jsou běžné síťové útoky a problémy jako SYN flood, spoofing nebo sniffing?
