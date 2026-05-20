@@ -292,7 +292,7 @@ body{
   }
   #question{max-width:100%}
 }
-.card.flipped{font-size:clamp(0.95rem,1.4vw,1.15rem);font-weight:500;line-height:1.5;text-align:left}
+.card.flipped{font-size:clamp(0.95rem,1.4vw,1.15rem);font-weight:500;line-height:1.5;text-align:left;white-space:pre-line}
 .card.flipped #question{max-width:100%}
 </style>
 </head>
@@ -444,7 +444,7 @@ function render(){
   const q = questions[cursor];
   if(!reviewed[cursor]){ /* good */ }
   const isFlipped = flipped[cursor];
-  document.getElementById('question').textContent = (isFlipped ? answers[cursor] : q) || 'All done!';
+  document.getElementById('question').innerHTML = (isFlipped ? answers[cursor] : q).replace(/ • /g, '<br>• ').replace(/ → /g, '<br>→ ') || 'All done!';
   document.getElementById('counter').textContent = (cursor+1)+' / '+total;
   document.getElementById('card').className = 'card'+(reviewed[cursor]?' reviewed':'')+(marked[cursor]?' marked':'')+(flipped[cursor]?' flipped':'');
   document.getElementById('btnReview').textContent = reviewed[cursor]?'Undo':'Reviewed ✓';
