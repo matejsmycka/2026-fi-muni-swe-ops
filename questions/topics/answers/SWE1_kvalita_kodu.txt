@@ -1,0 +1,38 @@
+Software ověřuje, že splňuje stanovené požadavky a očekávání. Není to jen absence chyb – je to souhrn atributů (výkon, udržovatelnost, spolehlivost, bezpečnost...). Příklad: e-shop při Black Friday – musí být škálovatelný, spolehlivý, bezpečný (HTTPS, PCI), udržovatelný (opravy za provozu).
+Performance, efficiency, maintainability, reliability, usability, testability, availability, security (CIA), safety, robustness, scalability. Konflikt: Performance vs Security (šifrování zpomaluje), Security vs Usability (přísná autentizace komplikuje UX).
+Cyklomatická složitost (McCabe) – CC = počet rozhodovacích bodů + 1 (if, for, while, switch...) • OOP metriky – WMC, DIT, CBO, LCOM • Defektové metriky – počet defektů (přímá), hustota defektů (nepřímá)
+CC = počet rozhodovacích bodů + 1. Rozhodovací body: if, if-else, switch, for, while, case, catch, ?:, &&, ||. Alternativně: M = E − N + 2P. Vysoká CC = těžší pochopení, údržba a testování.
+Úprava kódu bez změny vnějšího chování. Cíl: zlepšit čitelnost, strukturu, odstranit duplicity, snížit složitost. Kdy: při přidávání funkcí, opravě chyb, code review. Rizika: zavlečení nových chyb (pokud nejsou testy), ztráta času při over-refactoringu.
+Nízký coupling + vysoká cohesion = lepší udržovatelnost a testovatelnost. Coupling: míra znalosti jedné komponenty o druhé. Cohesion: míra, jak spolu prvky uvnitř modulu souvisí.
+Naming (třídy podstatná jména, metody slovesa, proměnné výstižné) • Žádné boolean parametry • Getters/Setters jen když potřeba • Komentáře jen když kód není samodokumentační • DRY, KISS, YAGNI
+SRP (Single Responsibility) – třída má jeden důvod ke změně • OCP (Open/Closed) – otevřeno pro rozšíření, uzavřeno pro modifikaci • LSP (Liskov Substitution) – podtypy nahraditelné za bázové typy • ISP (Interface Segregation) – mnoho specifických rozhraní • DIP (Dependency Inversion) – závislost na abstrakcích, ne implementacích
+Třída/modul má právě jednu odpovědnost = jeden důvod ke změně. Bez SRP: změna v jedné oblasti rozbije jinou funkcionalitu.
+Softwarové entity otevřeny pro rozšíření, uzavřeny pro modifikaci. Přidání nové funkcionality bez změny existujícího kódu (např. přes rozhraní a dědičnost).
+Podtypy nahraditelné za rodičovské typy bez ovlivnění správnosti programu. Co lze dokázat o rodiči, musí platit i pro potomka.
+Mnoho specifických rozhraní je lepších než jedno univerzální. Klient nesmí být nucen záviset na metodách, které nepoužívá.
+Vysoké moduly nemají záviset na nízkých – oba závisí na abstrakcích. Abstrakce nemají záviset na detailech – detaily závisí na abstrakcích.
+Maintainability: refaktoring, decoupling, separace dat od logiky • Performance: kešování, paralelismus, asynchronní zpracování • Reliability: ošetření chyb, timeout, heartbeat, snapshoty, transakce • Testability: DI, mocking, odstranění globálního stavu • Scalability: replikace, distribuce • Security: šifrovaná komunikace • Usability: zlepšení UX
+Refaktoring na koherentní jednotky → minimální místo změny. Separace dat od logiky → jednotku lze nahradit jinou. Decoupling → závislosti na rozhraních, ne implementacích.
+Kešování, paralelismus, asynchronní komunikace/zpracování. Detekce a mitigace bottlenecků. Odstranění adaptérů, zjednodušení komunikace. Separace dat od logiky.
+Kontrolní mechanismy, detekce a náprava nespolehlivosti. Vhodné ošetření chyb, automatický reporting. Timeout, ping (iniciuje volající), heartbeat (služba reportuje stav). Snapshoty a rollback. Transakce. Kontrola vstupů na každé úrovni. Odstranění single point of failure.
+Refaktoring na závislosti na abstrakcích, decoupling. Separace dat a logiky. Odstranění globálního stavu. Dependency injection, mocking.
+Detekce a oprava zranitelností. Použití šifrované komunikace.
+Proces ověřování, zda SW splňuje specifikace. Samo o sobě nezaručuje kvalitu – testování odhaluje chyby, ale nezabrání jim. Kvalita musí být zabudována procesem (analýza, návrh, code review, statická analýza). Testování ukazuje přítomnost chyb, ne jejich absenci (Dijkstra).
+Testují izolovaně jednotky (třídy, metody) bez závislostí (mocky). Patří: ověření logiky, edge cases, chybové stavy. Nepatří: DB, API, UI, síťová komunikace.
+Testují spolupráci více modulů. Problémy: nekompatibilní rozhraní, formáty dat, chyby v komunikaci, konfigurace.
+Testy s reálnými uživateli na reálných scénářích. Cíl: jak systém používají, co je mate, co chybí, co je pomalé.
+Ověřují splnění akceptačních kritérií od zákazníka. Určuje zákazník – co musí systém umět, aby byl přijat.
+Testování systému jako celku se všemi komponentami, konfiguracemi a prostředím. Zahrnuje: funkční, výkonové, bezpečnostní, zátěžové testování.
+Testování, že opravená chyba se znovu neobjevila. Test se přidá do sady po opravě bugu.
+Minimální sada testů ověřující základní funkcionalitu – rychlá kontrola, že systém "není rozbitý".
+Testování výkonu, rychlosti odezvy, stability pod zátěží. Typy: Load (očekávaná zátěž), Stress (extrémní – najít bod zlomu), Soak/Endurance (dlouhodobá – memory leaky), Spike (náhlé skokové zvýšení).
+White-box: tester zná vnitřní strukturu kódu. Black-box: tester zná jen vstupy a očekávané výstupy.
+Model vývoje, kde každé fázi odpovídá úroveň testování: Analýza ↔ Akceptační testy, Návrh ↔ Systémové testy, Detailní návrh ↔ Integrační testy, Implementace ↔ Unit testy.
+Validace: děláme správný produkt? (ověření vůči potřebám uživatele). Verifikace: děláme produkt správně? (ověření vůči specifikaci).
+Big Bang (vše naráz, rizikové), Top-down (od horních modulů, stuby pro spodní), Bottom-up (od spodních modulů, drivery pro horní), Sandwich (kombinace), Continuous integration.
+Vytvoření falešného objektu nahrazujícího reálnou závislost pro izolované testování. Frameworky: Mockito (Java), Moq (.NET), unittest.mock (Python).
+Shromáždit logy, vstupy a prostředí → pokusit se reprodukovat za kontrolovaných podmínek → přidat logování → zúžit na minimální případ → izolovat komponenty → debugger + breakpointy → binární hledání.
+Profilování (CPU/memory profiler) • Sledování doby odezvy, CPU/memory, DB query times, I/O wait • APM nástroje: DataDog, New Relic, Grafana+Prometheus • Analýza pomalých DB dotazů (EXPLAIN) • Testování výkonu: JMeter, k6, Locust.
+Proces zajišťující, že SW splňuje požadavky na kvalitu napříč celým životním cyklem. Zahrnuje: QA plánování, standardy, code review, automatické testy, statickou analýzu, metriky, akceptační kritéria.
+Regrese (bugy v existující funkcionalitě po změnách) se zjistí až u zákazníka • Pomalá zpětná vazba • Hromadění technického dluhu – strach z refaktoringu • Manuální testování je pomalé, nekonzistentní a drahé.
+Nízký coupling (závislosti na rozhraních) + vysoká cohesion (související věci pohromadě) = snadné změny, lepší testovatelnost, menší riziko regrese. Podporuje udržovatelnost – moduly lze měnit, testovat a nahrazovat nezávisle.

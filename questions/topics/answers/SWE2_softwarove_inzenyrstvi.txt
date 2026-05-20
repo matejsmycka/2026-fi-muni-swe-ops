@@ -1,0 +1,30 @@
+Inženýrský obor, systematický přístup k vývoji, provozu, údržbě a náhradě SW. Programování = psaní kódu. SW inženýrství = analýza → návrh → implementace → testování → nasazení → údržba. Zahrnuje dokumentaci, řízení týmu, procesy, komunikaci se zákazníkem.
+Analýza – specifikace požadavků • Návrh – architektura, UML diagramy • Implementace – zdrojový kód, unit testy • Testování – test reporty, bug reporty • Nasazení/údržba – provozní dokumentace, monitoring
+Waterfall (sekvenční, malé projekty) • Inkrementální (vývoj po částech) • Prototyp (průzkum, nejasné požadavky) • Výzkumník (trial & error, business cíl) • Spirálový (iterativní+inkrementální, risk management) • Reuse-oriented (max. využití existujících modulů)
+Striktně sekvenční: analýza → návrh → implementace → testování → nasazení. Nelze se vracet. Vhodné pro malé projekty s fixními požadavky. Výhody: jednoduchý, nízký management overhead. Nevýhody: pozdní odhalení chyb = drahé, zákazník dlouho nic nevidí.
+Vývoj po verzích (inkrementech), každý je samostatný vodopád. Výhody: rychlejší nasazení a viditelnost, lepší reakce na změny, zákazník dříve vidí výsledky. Nevýhody: větší management overhead, riziko nárůstu požadavků.
+Iterativní = opakované vylepšování existujícího. Inkrementální = postupné přidávání nové funkcionality. Často kombinovány: UP a Scrum používají obojí.
+Iterativní + inkrementální. Každý cyklus: plánování → analýza → evaluace alternativ/analýza rizik → tvorba prototypu → vývoj. Risk management je jádrem – každá iterace vyhodnocuje a mitiguje rizika před dalším pokračováním.
+Framework SW procesu – prediktivní přístup. Iterativní a inkrementální. 4 fáze: Inception → Elaboration → Construction → Transition. 6 procesů v iteraci: Business modeling, Requirements, Analysis & Design, Implementation, Test, Deployment.
+Komerční implementace UP od Rational Software (IBM). Přesně definuje kdo, co, kdy, jak. Rozšiřuje UP o Configuration & Change management, Environment, Project management. Později evolvován do OpenUP.
+Inception (feasibility study, business case, rizika) • Elaboration (architektura, UML modely) • Construction (programování, testování) • Transition (opravy, manuály, školení, release). Každá fáze = 1+ iterací, max. 3 měsíce na iteraci.
+Role: architekti (Elaboration), vývojáři (Construction), testeři (Construction/Transition), manažeři (všechny). Artefakty: vision document, UML diagramy, kód, testy, manuály, release notes. Činnosti: business modeling, requirements, analysis & design, implementation, test, deployment.
+Flexibilní přístup, řízení lidských zdrojů. Řeší: neschopnost reagovat na změny, pozdní objevení chyb, zákazník dlouho nevidí výsledky. Čas a zdroje fixní, mění se funkcionalita. Minimum plánování napřed. Fungující SW > dokumentace.
+Jednotlivci a interakce před procesy a nástroji. Fungující software před dokumentací. Spolupráce se zákazníkem před vyjednáváním o smlouvě. Reagování na změny před dodržováním plánu.
+SCRUM – sprinty, 3 role, 5 událostí, 3 artefakty. XP – extrémní revidování, párové programování, TDD, refaktoring. FDD – vývoj po malých kouscích, 5 fází (3 sekvenční, 2 iterativní). TDD – Red-Green-Refactor cyklus.
+Fixní délka sprintů (max 1 měsíc). 5 událostí: Sprint, Sprint Planning (8h), Daily Scrum, Sprint Review (4h), Sprint Retrospective (3h). Planning poker s Fibonacciho čísly pro odhad. Výstup: nasaditelný inkrement.
+Product Owner – zastupuje stakeholdery, spravuje Product Backlog. Scrum Master – řídí proces, odstraňuje překážky, chrání tým. Team of Developers – udržuje a implementuje Sprint Backlog.
+Zástupce stakeholderů/zákazníka. Vytváří a prioritizuje Product Backlog, definuje user stories. Rozhoduje o funkcionalitě, hodnotě a prioritách. Není manažer týmu.
+Facilitátor Scrum procesu. Odstraňuje impedimenty, chrání tým před vnějšími vlivy, koučuje v agilních principech. Není Project Manager – nerozděluje úkoly.
+Časový box (max 1 měsíc) pro dokončení definované práce. Výstup: Product Increment (potenciálně nasaditelný). Nelze prodlužovat – nestíhá se → redukuje se scope.
+Seznam všeho k implementaci. Spravován PO, prioritizován podle business value. Skládá se z user stories, hodnoceno story pointy. Živý dokument.
+Podmnožina Product Backlogu pro aktuální sprint. Vytvořena na Sprint Planningu. Definuje: co (sprint goal) a jak (tasks). Vlastní tým developerů.
+"Jako [role] chci [funkce] abych [důvod]". Špatně: vágní (nelze odhadnout), technické místo uživatelského, chybí business value, příliš velké (epic), chybí acceptance criteria. Dobré: INVEST.
+Iterativní = vylepšování existujícího (dělám to lépe). Inkrementální = přidávání nového (dělám toho víc). UP i Scrum kombinují obojí.
+Prediktivní: fixní funkcionalita, mění se čas/zdroje – jaderná elektrárna. Agilní: fixní čas/zdroje, mění se funkcionalita – e-shop.
+Klíčová v agilním vývoji (daily scrum, review, retro). Selhání: nepřesné požadavky, duplicitní práce, nekoordinovaný tým, frustrace zákazníka, neschopnost reagovat na změny.
+Přechod z vývoje do provozu. Prostředí: Development → Test → Staging → Production. CI/CD: automatizované testování (CI) + automatické nasazení (CD). Po nasazení: monitoring, logging, change management, školení, support.
+Modifikace nasazeného SW po předání. Účel: opravy chyb, zvýšení výkonu, přizpůsobení změnám. Může dělat jiný tým. Samostatná smlouva a cena. Nejdelší fáze životního cyklu.
+Korektivní – oprava chyb • Adaptivní – přizpůsobení změnám (OS, legislativa) • Perfektní – zvýšení výkonu, UX, refaktoring • Preventivní – prevence budoucích problémů • Nouzová – kritické opravy.
+Schopnost použít existující artefakty jinde. Úrovně: Abstrakce (UML, specifikace), Objekty (třídy), Komponenty (kolekce, services), Systém. Overhead: čas hledání, cena, úprava, integrace.
+Plánování, organizace, vedení a kontrola projektu. Prediktivní (řízení procesů) vs agilní (řízení lidských zdrojů). Zahrnuje: estimace, risk management, change management, alokaci zdrojů. Vztah Time–Functionality–Price.

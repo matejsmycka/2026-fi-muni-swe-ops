@@ -324,16 +324,17 @@ body{
 <div id="main">
   <div class="stats" style="margin-bottom:8px" id="textStatus">Loading...</div>
   <div id="progress"><div style="width:0%"></div></div>
-  <div class="card" id="card"><span id="question"></span></div>
+  <div class="card" id="card" onclick="toggleFlip()"><span id="question"></span></div>
   <div class="counter" id="counter"></div>
   <div class="controls-bar">
     <button onclick="shuffleAll()">⟳ Shuffle</button>
     <button onclick="mark()" class="warn">✦ Mark</button>
     <button onclick="toggleReviewed()" class="primary" id="btnReview">Review ✓</button>
+    <button onclick="toggleFlip()">↺ Flip</button>
     <button onclick="prev()">◀</button>
     <button onclick="next()">▶</button>
   </div>
-  <div class="hotkeys">Arrow keys or click card to advance | R=review | M=mark | S=shuffle</div>
+  <div class="hotkeys">→/↓ next | ←/↑ prev | Space/F/Click = flip | R = review | M = mark | S = shuffle</div>
 </div>
 
 <script>
@@ -349,7 +350,7 @@ const TOPICS = [
   {id:'OPS4', f:'OPS4_operacni_systemy.txt'},
   {id:'OPS5', f:'OPS5_nosql_databaze.txt'}
 ];
-let questions=[], reviewed={}, marked={}, cursor=0;
+let questions=[], answers=[], reviewed={}, marked={}, flipped={}, cursor=0;
 let isShuffled=false;
 const mainEl=document.getElementById('main');
 const STAT=document.getElementById('textStatus');
@@ -368,23 +369,29 @@ function apply(){
   loadSelected(ids);
 }
 async function loadSelected(idxIds){
-  let qs = [];
-  reviewed = {}; marked = {}; cursor = 0; isShuffled = false;
+  let qs = [], as = [];
+  reviewed = {}; marked = {}; flipped = {}; cursor = 0; isShuffled = false;
   try{
     const base = window.location.href.replace(/index\.html$/,'');
     for(let id of idxIds){
       if(id>=0 && id<TOPICS.length){
         const r = await fetch(base+'topics/'+TOPICS[id].f);
         const txt = await r.text();
-        questions = qs = qs.concat(txt.split('\n').map(l=>l.trim()).filter(l=>l.length>0));
+        qs = qs.concat(txt.split('\n').map(l=>l.trim()).filter(l=>l.length>0));
+        try{
+          const ar = await fetch(base+'topics/answers/'+TOPICS[id].f);
+          const atxt = await ar.text();
+          as = as.concat(atxt.split('\n').map(l=>l.trim()).filter(l=>l.length>0));
+        } catch(e){ as = as.concat(qs.map(()=>'No answer available yet.')); }
       }
     }
     document.getElementById('textStatus').textContent = qs.length+' questions loaded from '+idxIds.length+' topics';
   } catch(e){ 
     qs = ['Could not load topic files — ensure /topics/ exists'];
+    as = [''];
     STAT.textContent = 'Error loading'; 
   }
-  questions = qs;
+  questions = qs; answers = as;
   render();
 }
 function next(){for(let i=cursor+1;i<questions.length;i++){ if(!reviewed[i]){cursor=i;render();return; }} if(cursor>=0)render(); }
@@ -406,8 +413,14 @@ function jumpToMarked(idx){
   render();
 }
 function shuffleAll(){
-  for(let i=questions.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[questions[i],questions[j]]=[questions[j],questions[i]];}
-  reviewed={};marked={};cursor=0;isShuffled=true;render();
+  for(let i=questions.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[questions[i],questions[j]]=[questions[j],questions[i]];[answers[i],answers[j]]=[answers[j],answers[i]];}
+  reviewed={};marked={};flipped={};cursor=0;isShuffled=true;render();
+}
+function toggleFlip(){
+  if(!questions.length) return;
+  if(flipped[cursor]) delete flipped[cursor];
+  else flipped[cursor]=true;
+  render();
 }
 function renderMarkedQueue(){
   const markedIndexes = Object.keys(marked).map(Number).sort((a,b)=>a-b);
@@ -438,7 +451,8 @@ function render(){
   }
   const q = questions[cursor];
   if(!reviewed[cursor]){ /* good */ }
-  document.getElementById('question').textContent = q || 'All done!';
+  const isFlipped = flipped[cursor];
+  document.getElementById('question').textContent = (isFlipped ? answers[cursor] : q) || 'All done!';
   document.getElementById('counter').textContent = (cursor+1)+' / '+total;
   document.getElementById('card').className = 'card'+(reviewed[cursor]?' reviewed':'')+(marked[cursor]?' marked':'');
   document.getElementById('btnReview').textContent = reviewed[cursor]?'Undo':'Reviewed ✓';
@@ -448,6 +462,7 @@ document.addEventListener('keydown',e=>{
   if(document.activeElement !== document.body) return;
   if(e.key==='ArrowRight'||e.key==='ArrowDown'){ e.preventDefault(); next(); }
   if(e.key==='ArrowLeft'||e.key==='ArrowUp'){ e.preventDefault(); prev(); }
+  if(e.key===' '||e.key==='f'||e.key==='F'){ e.preventDefault(); toggleFlip(); }
   if(e.key==='r'||e.key==='R'){ e.preventDefault(); toggleReviewed(); }
   if(e.key==='m'||e.key==='M'){ e.preventDefault(); mark(); }
   if(e.key==='s'||e.key==='S'){ e.preventDefault(); shuffleAll(); }
