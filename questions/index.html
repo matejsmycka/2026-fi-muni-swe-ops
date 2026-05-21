@@ -1,465 +1,166 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>N-SWE OPS Flashcards</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#0b1220;
-  --bg-accent:#111b31;
-  --panel:#10192a;
-  --panel-2:#17243b;
-  --panel-3:#20314d;
-  --line:#29415f;
-  --text:#edf3ff;
-  --muted:#98a7c2;
-  --muted-2:#6f7f9b;
-  --success:#2f8f4e;
-  --success-bg:#13281b;
-  --warn:#c98c2a;
-  --warn-bg:#2f2410;
-}
-body{
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:
-    radial-gradient(circle at top right, rgba(72,126,255,.18), transparent 30%),
-    radial-gradient(circle at bottom left, rgba(46,166,121,.14), transparent 24%),
-    linear-gradient(135deg, var(--bg), #0f1727 55%, #0d1523);
-  color:var(--text);
-  display:flex;
-  min-height:100vh;
-  overflow:hidden;
-}
-#sidebar{
-  width:300px;
-  min-width:300px;
-  background:rgba(9,14,24,.92);
-  backdrop-filter:blur(14px);
-  padding:20px 18px 24px;
-  overflow-y:auto;
-  border-right:1px solid rgba(124,156,207,.16);
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  box-shadow:inset -1px 0 0 rgba(255,255,255,.03);
-}
-#sidebar h2{
-  font-size:.82rem;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:6px;
-}
-#sidebar label{
-  display:block;
-  font-size:.92rem;
-  line-height:1.35;
-  padding:10px 12px;
-  cursor:pointer;
-  border-radius:12px;
-  color:#cfdaed;
-  transition:background .15s,border-color .15s,color .15s,transform .15s;
-  border:1px solid transparent;
-}
-#sidebar label:has(input:checked){
-  color:#fff;
-  background:rgba(47,143,78,.14);
-  border-color:rgba(87,185,112,.32);
-}
-#sidebar label:hover{
-  background:rgba(41,65,95,.36);
-  border-color:rgba(124,156,207,.18);
-}
-#sidebar input{margin-right:8px;transform:translateY(1px)}
-#sidebar .sep{
-  font-size:.7rem;
-  color:var(--muted-2);
-  margin-top:10px;
-  padding-top:10px;
-  border-top:1px solid rgba(124,156,207,.12);
-  letter-spacing:.08em;
-  text-transform:uppercase;
-}
-#sidebar button{
-  display:block;
-  width:100%;
-  margin:0;
-  padding:10px 12px;
-  border-radius:10px;
-  border:1px solid rgba(124,156,207,.15);
-  background:var(--panel);
-  color:var(--text);
-  cursor:pointer;
-}
-.sidebar-actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-bottom:4px;
-}
-.sidebar-actions button{
-  font-size:.84rem;
-  font-weight:600;
-}
-.sidebar-panel{
-  margin-top:14px;
-  padding-top:14px;
-  border-top:1px solid rgba(124,156,207,.12);
-}
-.sidebar-panel h3{
-  font-size:.72rem;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:8px;
-}
-.queue-meta{
-  font-size:.8rem;
-  color:var(--muted-2);
-  margin-bottom:10px;
-}
-.mark-list{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-.mark-item{
-  width:100%;
-  text-align:left;
-  padding:10px 12px;
-  border-radius:12px;
-  border:1px solid rgba(201,140,42,.18);
-  background:rgba(47,36,16,.52);
-  color:#ffe4b6;
-  cursor:pointer;
-  font-size:.87rem;
-  line-height:1.35;
-}
-.mark-item:hover{
-  border-color:rgba(201,140,42,.4);
-  background:rgba(58,43,19,.72);
-}
-.mark-item.active{
-  border-color:rgba(201,140,42,.62);
-  box-shadow:0 0 0 1px rgba(201,140,42,.24) inset;
-}
-.mark-item.done{
-  opacity:.6;
-}
-.mark-empty{
-  font-size:.85rem;
-  color:var(--muted-2);
-  padding:10px 12px;
-  border:1px dashed rgba(124,156,207,.15);
-  border-radius:12px;
-}
-#main{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:32px;
-  overflow:auto;
-}
-.stats{
-  font-size:.98rem;
-  color:var(--muted);
-  margin:0 0 12px;
-  text-align:center;
-}
-.card{
-  border:1px solid rgba(124,156,207,.2);
-  border-radius:24px;
-  padding:40px 44px;
-  width:min(100%,920px);
-  min-height:360px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  font-size:clamp(1.8rem,2.3vw,2.55rem);
-  font-weight:650;
-  line-height:1.32;
-  letter-spacing:-.02em;
-  cursor:pointer;
-  user-select:none;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.03), transparent 25%),
-    linear-gradient(145deg, rgba(29,47,77,.96), rgba(16,27,46,.98));
-  box-shadow:0 24px 60px rgba(0,0,0,.28);
-  transition:transform .15s,background .15s,border-color .15s,box-shadow .15s;
-}
-.card:hover{
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.04), transparent 25%),
-    linear-gradient(145deg, rgba(34,56,91,.98), rgba(18,31,52,.98));
-  box-shadow:0 28px 72px rgba(0,0,0,.34);
-}
-.card:active{transform:scale(.992)}
-.card.reviewed{
-  border-color:rgba(87,185,112,.35);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.02), transparent 25%),
-    linear-gradient(145deg, #193323, #102217);
-}
-.card.marked{
-  border-color:rgba(201,140,42,.42);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.02), transparent 25%),
-    linear-gradient(145deg, #342712, #241c0d);
-}
-#progress{
-  width:min(100%,920px);
-  height:10px;
-  background:rgba(41,65,95,.55);
-  border-radius:999px;
-  margin:0 0 16px;
-  overflow:hidden;
-}
-#progress div{
-  height:100%;
-  background:linear-gradient(90deg, #2f8f4e, #59c176);
-  border-radius:999px;
-  transition:width .15s;
-}
-.controls-bar{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  justify-content:center;
-  margin:18px 0 10px;
-}
-.controls-bar button{
-  min-height:48px;
-  padding:12px 18px;
-  border:1px solid rgba(124,156,207,.18);
-  border-radius:14px;
-  cursor:pointer;
-  font-size:.95rem;
-  font-weight:600;
-  background:rgba(16,25,42,.84);
-  color:var(--text);
-  transition:transform .15s,background .15s,border-color .15s;
-}
-.controls-bar button:hover{
-  background:rgba(32,49,77,.95);
-  border-color:rgba(124,156,207,.3);
-}
-.controls-bar button:active{transform:scale(.97)}
-.controls-bar button.primary{
-  background:var(--success);
-  border-color:#59c176;
-  color:#fff;
-}
-.controls-bar button.warn{
-  background:var(--warn-bg);
-  border-color:rgba(201,140,42,.45);
-  color:#ffd99b;
-}
-.counter{
-  font-size:.95rem;
-  color:var(--muted);
-  margin-top:12px;
-}
-.hotkeys{
-  font-size:.8rem;
-  color:var(--muted-2);
-  margin-top:4px;
-  text-align:center;
-}
-#question{
-  max-width:48ch;
-  text-wrap:balance;
-}
-@media (max-width:900px){
-  body{flex-direction:column;overflow:auto}
-  #sidebar{
-    width:100%;
-    min-width:100%;
-    border-right:none;
-    border-bottom:1px solid rgba(124,156,207,.16);
-    padding:14px;
-  }
-  #main{padding:18px 14px 24px}
-  .card{
-    min-height:300px;
-    padding:28px 22px;
-    font-size:clamp(1.4rem,6vw,2rem);
-    border-radius:20px;
-  }
-  #question{max-width:100%}
-}
-.card.flipped{font-size:clamp(0.95rem,1.4vw,1.15rem);font-weight:500;line-height:1.5;text-align:left;white-space:pre-line}
-.card.flipped #question{max-width:100%}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Flashcards pro přípravu na státnice N‑SWE OPS na FI MUNI. 282 otázek z 10 témat.">
+  <meta name="theme-color" content="#0b1220">
+  <meta property="og:title" content="N-SWE OPS Flashcards">
+  <meta property="og:description" content="Flashcards pro přípravu na státnice N‑SWE OPS – 282 otázek z 10 témat.">
+  <meta property="og:type" content="website">
+  <title>N-SWE OPS Flashcards</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="sidebar">
-  <h2>SWE-OPS Themes</h2>
-  <div class="sidebar-actions">
-    <button onclick="t('all')">All</button>
-    <button onclick="t('none')">None</button>
-  </div>
-  <span class="sep">Common Core</span>
-  <label><input type="checkbox" checked onchange="apply()"><span>1. Code Quality</span></label>
-  <label><input type="checkbox" checked onchange="apply()"><span>2. Software Engineering</span></label>
-  <label><input type="checkbox" checked onchange="apply()"><span>3. Databases</span></label>
-  <label><input type="checkbox" checked onchange="apply()"><span>4. Computer Networks</span></label>
-  <label><input type="checkbox" checked onchange="apply()"><span>5. Distributed Systems</span></label>
-  <span class="sep">OPS Specialization</span>
-  <label><input type="checkbox" checked onchange="apply()"><span>6. Development &amp; Deployment</span></label>
-  <label><input type="checkbox" checked onchange="apply()"><span>7. Secure Infrastructure</span></label>
-  <label><input type="checkbox" checked onchange="apply()"><span>8. Cloud Computing</span></label>
-  <label><input type="checkbox" checked onchange="apply()"><span>9. Operating Systems</span></label>
-  <label><input type="checkbox" checked onchange="apply()"><span>10. NoSQL Databases</span></label>
-  <div class="sidebar-panel">
-    <h3>Marked Queue</h3>
-    <div class="queue-meta" id="markMeta">0 marked questions</div>
-    <div class="mark-list" id="markList">
-      <div class="mark-empty">Mark questions to build a review queue.</div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!--  Sidebar — Topic Filters & Marked Queue                           -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <nav id="sidebar" aria-label="Topic filters">
+
+    <h2>SWE-OPS Topics</h2>
+
+    <div class="sidebar-actions">
+      <button id="btn-select-all" type="button" aria-label="Select all topics">All</button>
+      <button id="btn-select-none" type="button" aria-label="Deselect all topics">None</button>
+      <button id="btn-theme-toggle" type="button" aria-label="Toggle theme">🌞/🌙</button>
     </div>
-  </div>
-</div>
-<div id="main">
-  <div class="stats" style="margin-bottom:8px" id="textStatus">Loading...</div>
-  <div id="progress"><div style="width:0%"></div></div>
-  <div class="card" id="card" onclick="toggleFlip()"><span id="question"></span></div>
-  <div class="counter" id="counter"></div>
-  <div class="controls-bar">
-    <button onclick="shuffleAll()">⟳ Shuffle</button>
-    <button onclick="mark()" class="warn">✦ Mark</button>
-    <button onclick="toggleReviewed()" class="primary" id="btnReview">Review ✓</button>
-    <button onclick="toggleFlip()">↺ Flip</button>
-    <button onclick="prev()">◀</button>
-    <button onclick="next()">▶</button>
-  </div>
-  <div class="hotkeys">→/↓ next | ←/↑ prev | Space/F/Click = flip | R = review | M = mark | S = shuffle</div>
-</div>
 
-<script>
+    <!-- Common Core (SWE 1–5) -->
+    <span class="topic-group-label">Common Core</span>
 
-let questions=[], answers=[], reviewed={}, marked={}, flipped={}, cursor=0;
-const EMBEDDED_DATA = [
-  {i:0,q:["Co je kvalita softwaru a jak byste ji vysvětlili na příkladu z praxe?", "Jaké atributy kvality softwaru znáte a jak se mohou dostávat do konfliktu?", "Jaké softwarové metriky se používají pro hodnocení kvality kódu a co reálně měří?", "Co měří cyklomatická složitost a jak se počítá?", "Co je refaktoring kódu, kdy ho dává smysl dělat a jaká má rizika?", "Jak souvisí coupling a cohesion s kvalitou, udržovatelností a testovatelností kódu?", "Jaké jsou principy Clean Code?", "Jaké jsou principy SOLID?", "Co znamená Single Responsibility Principle (SRP)?", "Co znamená Open/Closed Principle (OCP)?", "Co znamená Liskov Substitution Principle (LSP)?", "Co znamená Interface Segregation Principle (ISP)?", "Co znamená Dependency Inversion Principle (DIP)?", "Jaké taktiky se používají pro zajištění jednotlivých atributů kvality?", "Jaké taktiky podporují maintainability?", "Jaké taktiky podporují performance?", "Jaké taktiky podporují reliability?", "Jaké taktiky podporují testability?", "Jaké taktiky podporují security?", "Co je testování softwaru a proč samo o sobě nezaručuje kvalitu?", "Co testují jednotkové testy a co do nich naopak nepatří?", "Co testují integrační testy a kde typicky vznikají problémy?", "Co testují uživatelské testy a co z nich chceme zjistit?", "Co testují akceptační testy a kdo obvykle určuje jejich kritéria?", "Co testují systémové testy a jak se liší od integračních?", "Co je regression testing?", "Co je smoke testing?", "Co je výkonnostní testování a jaké typy výkonnostních testů znáte?", "Jaký je rozdíl mezi white-box a black-box testováním?", "Jaký je V-model testování?", "Co je validace a verifikace?", "Jaké existují integrační strategie testování?", "Jak funguje mocking?", "Jak byste systematicky postupovali při ladění chyby, kterou neumíte spolehlivě reprodukovat?", "Jak byste v praxi hledali bottleneck ve výkonu aplikace?", "Co je proces řízení kvality ve vývoji softwarových systémů?", "Jaké problémy vznikají bez automatických testů?", "Jak souvisí loose coupling a high cohesion s kvalitou a udržovatelností kódu?"],a:["Software ověřuje, že splňuje stanovené požadavky a očekávání. Není to jen absence chyb – je to souhrn atributů (výkon, udržovatelnost, spolehlivost, bezpečnost...).\nPříklad: e-shop při Black Friday – musí být škálovatelný, spolehlivý, bezpečný (HTTPS, PCI), udržovatelný (opravy za provozu).", "Atributy: performance, maintainability, reliability, usability, testability, availability, security (CIA), safety, robustness, scalability\nKonflikty:\n• Performance vs Security – šifrování zpomaluje\n• Security vs Usability – přísná autentizace komplikuje UX\n• Reliability vs Performance – snapshoty a transakce stojí výkon", "• Cyklomatická složitost (McCabe) – CC = počet rozhodovacích bodů + 1 (if, for, while, switch...)\n• OOP metriky – WMC (vážené metody na třídu), DIT (hloubka dědičnosti), CBO (coupling mezi objekty), LCOM (nedostatek koheze)\n• Defektové metriky – počet defektů (přímá), hustota defektů (nepřímá)", "CC = počet rozhodovacích bodů + 1\nRozhodovací body: if, if-else, switch, for, while, case, catch, ?:, &&, ||\nAlternativně: M = E − N + 2P (E=edges, N=nodes, P=components)\nVysoká CC → těžší pochopení, údržba a testování (více testovacích cest)", "Úprava kódu bez změny vnějšího chování.\nCíl: zlepšit čitelnost, strukturu, odstranit duplicity, snížit složitost\nKdy: při přidávání funkcí, opravě chyb, code review, před mergem\nRizika: zavlečení nových chyb (bez testů), ztráta času při over-refactoringu", "Coupling = míra znalosti jedné komponenty o druhé – nízký coupling = snazší změny\nCohesion = míra provázanosti prvků uvnitř modulu – vysoká cohesion = jedna odpovědnost\nNízký coupling + vysoká cohesion → lepší udržovatelnost a testovatelnost", "Smysluplné názvy (třídy = podst. jména, metody = slovesa, proměnné = výstižné)\nŽádné boolean parametry – rozdělit na dvě metody\nGetters/Setters jen když jsou potřeba\nKomentáře jen když kód není samodokumentační\nDRY – každá informace na jediném místě\nKISS – jednoduchost před výkonem, složité techniky na jednoduché problémy = zbytečné\nYAGNI – neimplementovat to, co není potřeba", "SRP – třída má jeden důvod ke změně\nOCP – otevřeno pro rozšíření, uzavřeno pro modifikaci\nLSP – podtypy nahraditelné za bázové typy\nISP – mnoho specifických rozhraní, ne jedno univerzální\nDIP – závislost na abstrakcích, ne na implementacích", "Třída/modul má právě jednu odpovědnost = jeden důvod ke změně.\nBez SRP: změna v jedné oblasti rozbije jinou funkcionalitu, merge konflikty, těžká testovatelnost.", "Entity otevřeny pro rozšíření, uzavřeny pro modifikaci.\nNová funkcionalita bez změny existujícího kódu → přes rozhraní a dědičnost/polymorfismus\nOchrana před regresí – starý kód zůstane netknutý", "Podtypy nahraditelné za rodičovské typy bez porušení správnosti.\nCo lze dokázat o rodiči, musí platit i pro potomka.\nPřestupek: podtřída vyhodí výjimku, kde rodič ne – porušení kontraktu", "Mnoho specifických rozhraní je lepších než jedno univerzální.\nKlient nesmí být nucen záviset na metodách, které nepoužívá.\nBez ISP: implementace prázdných metod, porušení SRP", "Vysoké moduly nemají záviset na nízkých – oba závisí na abstrakcích.\nAbstrakce nemají záviset na detailech – detaily závisí na abstrakcích.\nV praxi: Dependency Injection, programování proti rozhraním", "Maintainability: refaktoring, decoupling, separace dat od logiky\nPerformance: kešování, paralelismus, asynchronní zpracování, detekce bottlenecků, odstranění adaptérů\nReliability: ošetření chyb, timeout, heartbeat, snapshoty, transakce, kontrola vstupů, odstranění SPOF\nTestability: DI, mocking, odstranění globálního stavu, decoupling\nScalability: samostatné jednotky, replikace, distribuce dat\nSecurity: šifrovaná komunikace, detekce zranitelností, oprava chyb\nUsability: zlepšení UX, zrychlení přes výkonnostní/škálovací taktiky", "• Refaktoring na koherentní jednotky → minimální místo změny, snadno lokalizovatelné\n• Separace dat od logiky → jednotku lze nahradit jinou\n• Decoupling → závislosti na rozhraních, ne implementacích", "• Kešování (cache)\n• Paralelismus, asynchronní komunikace/zpracování\n• Detekce a mitigace bottlenecků\n• Odstranění adaptérů, zjednodušení komunikace\n• Separace dat od logiky", "• Kontrolní mechanismy pro zajištění spolehlivosti\n• Vhodné ošetření chyb, automatický reporting\n• Timeout po requestu\n• Ping (iniciuje volající), Heartbeat (služba reportuje stav)\n• Pravidelné snapshoty a rollback při pádu\n• Transakce (atomicita operací)\n• Kontrola vstupů na každé úrovni\n• Odstranění single point of failure (SPOF)", "• Refaktoring na závislosti na abstrakcích, decoupling\n• Separace dat a logiky\n• Odstranění globálního stavu\n• Dependency Injection → snadné mockování", "Detekce a oprava zranitelností.\nPoužití šifrované komunikace (TLS).", "Proces ověřování, zda SW splňuje specifikace a funguje správně.\nNezaručuje kvalitu: testování odhaluje chyby, ale nezabrání jim.\nKvalita musí být zabudována procesem (analýza, návrh, code review, statická analýza).\nTestování ukazuje přítomnost chyb, ne jejich absenci (Dijkstra).", "Testují izolovaně jednotlivé jednotky (třídy, metody) bez externích závislostí (mocky).\nPatří: ověření logiky, edge cases, chybové stavy.\nNepatří: DB, API, UI, síťová komunikace (to je integrační).", "Testují spolupráci více modulů – zda fungují dohromady.\nTypické problémy: nekompatibilní rozhraní, formáty dat, chyby v komunikaci, konfigurace.", "Testy s reálnými uživateli na reálných scénářích.\nCíl: jak uživatelé systém používají, co je mate, co jim chybí, co je pomalé.", "Ověřují splnění akceptačních kritérií od zákazníka/stakeholdera.\nUrčuje zákazník – co musí systém umět, aby byl přijat.", "Testování systému jako celku se všemi komponentami, konfiguracemi a prostředím.\nOproti integračním: testuje celý nasazený systém v reálných/podobných podmínkách.\nZahrnuje: funkční, výkonové, bezpečnostní, zátěžové testování.", "Testování, že opravená chyba se znovu neobjevila.\nTest se přidá do testovací sady po opravě bugu → prevence regrese.", "Minimální sada testů ověřující základní funkcionalitu.\n„Není systém rozbitý a lze začít testovat?“", "Testování výkonu, rychlosti odezvy, stability pod zátěží.\n• Load testing – očekávaná zátěž\n• Stress testing – extrémní zátěž, nalezení bodu zlomu\n• Soak/Endurance – dlouhodobá zátěž, detekce memory leaků\n• Spike testing – náhlé skokové zvýšení zátěže", "White-box: tester zná vnitřní strukturu kódu (větve, cesty, podmínky).\nBlack-box: tester zná jen vstupy a očekávané výstupy.", "Model, kde každé vývojové fázi odpovídá úroveň testování:\nAnalýza požadavků ↔ Akceptační testy\nNávrh architektury ↔ Systémové testy\nDetailní návrh ↔ Integrační testy\nImplementace ↔ Unit testy", "Validace: děláme správný produkt? (ověření vůči potřebám uživatele)\nVerifikace: děláme produkt správně? (ověření vůči specifikaci)", "• Big Bang – vše naráz (rizikové, těžko se hledá chyba)\n• Top-down – od horních modulů dolů, stuby pro spodní vrstvy\n• Bottom-up – od spodních modulů nahoru, drivery pro horní vrstvy\n• Sandwich – kombinace top-down + bottom-up\n• Continuous integration – průběžná integrace, testy při každém commitu", "Falešný objekt nahrazující reálnou závislost pro izolované testování.\nFrameworky: Mockito (Java), Moq (.NET), unittest.mock (Python), Jest (JS).", "1. Shromáždit co nejvíce informací (logy, vstupy, prostředí, čas)\n2. Pokusit se reprodukovat za kontrolovaných podmínek (stejná data, konfigurace)\n3. Přidat dodatečné logování kolem podezřelé oblasti\n4. Zúžit problém na minimální reprodukovatelný případ\n5. Izolovat komponenty a testovat jednotlivě\n6. Debugger + breakpointy\n7. Binární hledání – půlit rozsah, kde se chyba vyskytuje", "• Profilování (CPU/memory profiler)\n• Sledování: doby odezvy, CPU/memory usage, DB query times, I/O wait, network latency\n• Identifikace nejužšího místa → opravit ho, pak hledat další\n• APM nástroje: DataDog, New Relic, Grafana+Prometheus\n• Analýza pomalých DB dotazů (EXPLAIN, indexy)\n• Testování výkonu: JMeter, k6, Locust", "Proces zajišťující, že SW splňuje požadavky na kvalitu napříč celým životním cyklem.\nZahrnuje: QA plánování, definici standardů, code review, automatické testy, statickou analýzu, metriky kvality, akceptační kritéria.", "• Regrese – bugy v existující funkcionalitě po změnách se zjistí až u zákazníka\n• Pomalá zpětná vazba – vývojář neví, že něco rozbil\n• Hromadění technického dluhu – strach z refaktoringu\n• Manuální testování = pomalé, nekonzistentní, drahé\n• Chyby se odhalují pozdě → dražší opravy", "Nízký coupling (závislosti na rozhraních) + vysoká cohesion (související věci pohromadě) = \n• snadné změny\n• lepší testovatelnost\n• menší riziko regrese\n• moduly lze měnit, testovat a nahrazovat nezávisle"]},
-  {i:1,q:["Co je softwarové inženýrství a čím se liší od samotného programování?", "Jaké jsou fáze životního cyklu softwaru a jaké výstupy typicky vznikají v jednotlivých fázích?", "Jaké existují modely životního cyklu softwaru a kdy se který hodí?", "Co je waterfall model a kdy může být pořád rozumná volba?", "Co je inkrementální model vývoje a jaké má výhody oproti waterfallu?", "Co je iterativní vývoj a jak se liší od inkrementálního?", "Co je spirálový model vývoje a proč je silně navázaný na řízení rizik?", "Co je Unified Process (UP)?", "Co je Rational Unified Process (RUP)?", "Jaké jsou fáze RUP?", "Jaké role, artefakty a činnosti jsou typické pro jednotlivé fáze RUP?", "Co je agilní vývoj softwaru a jaké problémy se snaží řešit?", "Jaké jsou principy agilního vývoje?", "Jaké existují agilní metodiky?", "Jak funguje Scrum v praxi?", "Jaké role existují ve Scrumu?", "Kdo je Product Owner?", "Kdo je Scrum Master?", "Co je sprint?", "Co je product backlog?", "Co je sprint backlog?", "Co jsou user stories a jak poznáte, že jsou napsané špatně?", "Jak se liší iterativní a inkrementální vývoj?", "Jak se liší agilní a prediktivní metodiky na konkrétním projektu?", "Jaká je role komunikace v softwarovém vývoji a co se pokazí, když nefunguje?", "Co znamená nasazení a provoz softwarových systémů z pohledu životního cyklu?", "Co je údržba softwarových systémů?", "Jaké existují typy údržby softwaru?", "Co je znovupoužitelnost softwaru?", "Co je proces řízení softwarového vývoje?"],a:["Inženýrský obor – systematický přístup k vývoji, provozu, údržbě a náhradě SW.\nProgramování = jen psaní kódu.\nSW inženýrství = analýza → návrh → implementace → testování → nasazení → údržba\nZahrnuje: dokumentaci, řízení týmu, procesy, komunikaci se zákazníkem\nChybí jednotná teorie – spíše kolekce osvědčených technik", "• Analýza – specifikace požadavků (funkční/nefunkční)\n• Návrh – SW architektura, UML diagramy (class, sequence, deployment)\n• Implementace – zdrojový kód, unit testy\n• Testování – test reporty, bug reporty, certifikace\n• Nasazení/údržba – provozní dokumentace, manuály, monitoring", "• Waterfall – sekvenční, malé projekty, jasné požadavky\n• Inkrementální – vývoj po částech, poměrně jasné požadavky\n• Prototyp – průzkum možností, nejasné požadavky\n• Výzkumník – trial & error, jen business cíl (např. F1 auto)\n• Spirálový – iterativní + inkrementální, silný risk management\n• Reuse-oriented – maximální využití \"off the shelf\" modulů", "Striktně sekvenční: analýza → návrh → implementace → testování → nasazení\nNelze se vracet – fáze se nepřekrývají\nVhodné: malé projekty, fixní požadavky, jednoduché systémy\nVýhody: jednoduchý, nízký management overhead, promyšlený design\nNevýhody: pozdní odhalení chyb = drahé, zákazník dlouho nic nevidí", "Vývoj po verzích (inkrementech), každý inkrement = samostatný vodopád\nVýhody:\n• Rychlejší nasazení a viditelnost\n• Lepší reakce na změny\n• Zákazník dříve vidí výsledky, dokumentace v menších celcích\nNevýhody: větší management overhead, riziko nárůstu požadavků", "Iterativní = opakované vylepšování existujícího (přepisování/refaktoring)\nInkrementální = postupné přidávání nové funkcionality\nČasto kombinovány: UP a Scrum používají obojí", "Iterativní + inkrementální proces ve tvaru spirály.\nKaždý cyklus spirály:\n1. Plánování (requirements, lifecycle, development, test plans)\n2. Analýza (sběr požadavků)\n3. Evaluace alternativ + analýza rizik + tvorba prototypu\n4. Vývoj (koncept → design → detail)\nRisk management je jádrem – každá iterace vyhodnocuje a mitiguje rizika před pokračováním.", "Framework SW vývojového procesu – prediktivní (tradiční) přístup.\nIterativní a inkrementální.\n4 fáze: Inception → Elaboration → Construction → Transition\n6 procesů v iteraci: Business modeling, Requirements, Analysis & Design, Implementation, Test, Deployment\nPoužívá UML diagramy.", "Komerční implementace UP od Rational Software (IBM).\nPřesně definuje kdo, co, kdy, jak.\nRozšiřuje UP o: Configuration & Change management, Environment, Project management.\nPozději evolvován do agilního OpenUP.", "Inception – feasibility study, business case, identifikace rizik, počáteční požadavky\nElaboration – architektonický základ, všechny požadavky, UML modely, use case diagramy\nConstruction – dokončení designu, programování, testování\nTransition – oprava chyb, manuály, dokumentace, školení, release\nKaždá fáze = 1+ iterací (max 3 měsíce na iteraci)", "Role: architekti (Elaboration), vývojáři (Construction), testeři (Construction/Transition), manažeři (všechny fáze)\nArtefakty:\n• Inception: vision document, business case, risk list\n• Elaboration: UML diagramy (class, sequence, use case), architektonický model\n• Construction: zdrojový kód, unit testy, deployment diagram\n• Transition: manuály, release notes, dokumentace\nČinnosti: business modeling, requirements, analysis & design, implementation, test, deployment (každá iterace)", "Flexibilní přístup založený na řízení lidských zdrojů.\nŘeší problémy:\n• Neschopnost reagovat na měnící se požadavky\n• Pozdní objevení chyb (včasná zpětná vazba)\n• Zákazník dlouho nevidí výsledky\nČas a zdroje fixní, mění se funkcionalita (opak prediktivního)\nMinimum plánování napřed, iterativní-inkrementální vývoj\nFungující SW > dokumentace", "Jednotlivci a interakce před procesy a nástroji\nFungující software před vyčerpávající dokumentací\nSpolupráce se zákazníkem před vyjednáváním o smlouvě\nReagování na změny před dodržováním plánu", "• SCRUM – sprinty, 3 role, 5 událostí, 3 artefakty (nejpoužívanější)\n• XP – extrémní revidování, párové programování, TDD, neustálý refaktoring\n• FDD – vývoj po malých kouscích, 5 fází (3 sekvenční, 2 iterativní)\n• TDD – Red-Green-Refactor cyklus, testy jako hlavní fáze vývoje", "Fixní délka sprintů (max 1 měsíc).\n5 událostí:\n• Sprint – vývojový cyklus\n• Sprint Planning – 8h plánování\n• Daily Scrum – denní 15min synchronizace\n• Sprint Review – 4h kontrola inkrementu\n• Sprint Retrospective – 3h zhodnocení procesu\nPlanning poker s Fibonacciho čísly pro odhad story pointů.", "Product Owner – zastupuje stakeholdery, spravuje Product Backlog\nScrum Master – řídí proces, odstraňuje překážky, chrání tým\nTeam of Developers – udržuje a implementuje Sprint Backlog", "Zástupce stakeholderů/zákazníka.\nVytváří a prioritizuje Product Backlog.\nDefinuje user stories.\nRozhoduje o funkcionalitě, hodnotě a prioritách.\nNení manažer týmu – neřídí, jak tým pracuje.", "Facilitátor Scrum procesu.\nOdstraňuje impedimenty (překážky).\nChrání tým před vnějšími rušivými vlivy.\nKoučuje tým v agilních principech.\nNení Project Manager – nerozděluje úkoly, nepřebírá zodpovědnost za výsledek.", "Časový box (max 1 měsíc) pro dokončení definované práce.\nVýstup: Product Increment (potenciálně nasaditelný).\nZačíná Sprint Planningem, končí Sprint Review + Retrospective.\nBěhem sprintu: Daily Scrum, implementace Sprint Backlogu.\nSprint nelze prodlužovat – pokud se nestíhá, redukuje se scope.", "Seznam všeho, co má být v produktu implementováno.\nSpravován Product Ownerem, prioritizován podle business value.\nSkládá se z user stories, hodnoceno story pointy.\nŽivý dokument – průběžně se aktualizuje a reprioritizuje.", "Podmnožina Product Backlogu pro aktuální sprint.\nVytvořena na Sprint Planningu.\nVlastní tým developerů.\nDefinuje: co se udělá (sprint goal), jak se to udělá (tasks).", "\"Jako [role] chci [funkce] abych [důvod]\".\nŠpatně napsané:\n• Příliš vágní – nelze odhadnout effort\n• Technické detaily místo potřeb uživatele\n• Chybí business value (proč)\n• Příliš velké (epic) – nezapadnou do sprintu\n• Chybí acceptance criteria\nDobré: INVEST (Independent, Negotiable, Valuable, Estimable, Small, Testable)", "Iterativní = vylepšování existujícího → \"dělám to lépe\"\nInkrementální = přidávání nového → \"dělám toho víc\"\nUP i Scrum kombinují obojí (každý sprint = inkrement + možnost iterace)", "Prediktivní (vodopád, UP):\n• Fixní funkcionalita, mění se čas a zdroje\n• Příklad: jaderná elektrárna\n• Důkladné plánování napřed, dokumentace, UML\n\nAgilní (Scrum, XP):\n• Fixní čas a zdroje, mění se funkcionalita\n• Příklad: e-shop, podnikový IS\n• Minimum plánování napřed, průběžná komunikace", "Klíčová v agilních metodikách (daily scrum, review, retro).\nCo se pokazí bez ní:\n• Nepřesné pochopení požadavků\n• Duplicitní práce\n• Nekoordinovaná práce v týmu\n• Frustrace zákazníka (nevidí, co dostane)\n• Neschopnost reagovat na změny", "Přechod z vývoje do provozu.\nProstředí: Development → Test → Staging → Production\nCI/CD: automatizované testování (CI) + automatické nasazení (CD)\nPo nasazení: monitoring (heartbeat), logging, change management, školení, support\nTechnologie: Docker, Kubernetes/OpenShift, Ansible, Jenkins, GitLab CI, GitHub Actions", "Modifikace nasazeného SW po předání zákazníkovi.\nÚčel: opravy chyb, zvýšení výkonu, přizpůsobení změnám\nMůže ji dělat jiný tým než vývojový (samostatná smlouva a cena).\nFáze životního cyklu s nejdelším trváním.", "• Korektivní – oprava chyb a defektů\n• Adaptivní – přizpůsobení změnám prostředí (OS, HW, legislativa)\n• Perfektní – zvýšení výkonu, lepší UX, refaktoring\n• Preventivní – prevence budoucích problémů (technický dluh)\n• Nouzová – neplánované kritické opravy v produkci", "Schopnost použít existující artefakty v jiných projektech.\nÚrovně:\n• Abstrakce – analytické prvky (UML, specifikace, manuály)\n• Objekty – jednotlivé třídy\n• Komponenty – kolekce tříd, services\n• Systém – kompletní systém\nOverhead: čas hledání, cena za použití, úprava, integrace.", "Systém plánování, organizace, vedení a kontroly vývojového projektu.\nDvě hlavní paradigmata:\n• Prediktivní – řízení procesů (UP, waterfall), fixní scope, plánování napřed\n• Agilní – řízení lidských zdrojů (Scrum, XP), fixní čas/zdroje, adaptivní scope\nZahrnuje: plánování, estimace (story pointy vs mandays), risk management, change management, alokaci zdrojů\nKlíčový vztah: Time–Functionality–Price (vždy jeden se mění)"]},
-  {i:2,q:["Co je databáze a proč ji v praxi použít místo ukládání dat do souborů?", "Co je relační databáze?", "Jak funguje architektura relačních databází?", "Co je tabulka, relace, atribut a n-tice?", "Co je primární klíč a cizí klíč?", "Co je databázové schéma?", "Jaké části SQL rozlišujeme a k čemu slouží?", "Co je DDL a jaké příkazy do něj patří?", "Co je DML a jaké příkazy do něj patří?", "Jak se v SQL pracuje s transakcemi?", "Co je SELECT dotaz a z čeho se typicky skládá?", "Jaké typy JOINů existují a kdy byste je použili?", "Co jsou integritní omezení?", "Co je relační algebra a k čemu slouží?", "Co je selekce, projekce a kartézský součin v relační algebře?", "Co je transakce?", "Jak fungují vlastnosti ACID v databázových transakcích?", "Jaké jsou úrovně izolace transakcí?", "Co je deadlock a jak vzniká?", "Co je normalizace databáze?", "Co znamená 1NF, 2NF, 3NF a BCNF?", "Jak fungují indexy v databázích?", "Co je B+ strom, jak funguje a proč se používá pro indexaci?", "Co je hashování v databázích?", "Jaký je rozdíl mezi hustým a řídkým indexem?", "Jaký je rozdíl mezi indexováním a hashováním?", "Jak index ovlivňuje výkon čtení a zápisu?", "Jak probíhá vyhodnocení SQL dotazu?", "Co je logický a fyzický plán dotazu?", "Co je trigger, view a uložená procedura a kdy byste je v praxi použili?"],a:["No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet."]},
-  {i:3,q:["Co je počítačová síť a jaké jsou její základní koncepty, principy a architektury?", "Jaký je rozdíl mezi ISO/OSI a TCP/IP modelem?", "Jaké vrstvy mají modely ISO/OSI a TCP/IP?", "Jaké protokoly patří do jednotlivých vrstev?", "Co se přenáší na jednotlivých vrstvách?", "Co je IP protokol a jakou má roli při doručování paketů sítí?", "Co je IPv4 adresa?", "Jak se IPv6 liší od IPv4 a proč vzniklo IPv6?", "Co je CIDR notace a jak souvisí se subnettingem?", "Jaký je rozdíl mezi TCP a UDP?", "Jak funguje TCP handshake?", "Jak funguje retransmise v TCP?", "Co je flow control a congestion control?", "Co jsou DHCP, DNS a ARP?", "Jak funguje směrování v síti?", "Co je směrovací tabulka a jaké informace v ní typicky jsou?", "Jaký je rozdíl mezi statickým a dynamickým směrováním?", "Co je autonomní systém (AS)?", "Jaké základní principy a algoritmy se používají při směrování v sítích a čím se liší?", "Co je MTU a co je fragmentace?", "Co je peer-to-peer síť?", "Jaké jsou ad-hoc a senzorové sítě?", "Co jsou vysokorychlostní sítě?", "Jak souvisí počítačové sítě a multimédia z hlediska přenosu dat a požadavků na síť?", "Jak byste popsali, co se děje v síti, když se například nahrává fotka z telefonu do cloudu?", "Jaké bezpečnostní mechanismy se používají v sítích jako praktické příklady síťových protokolů?", "Co jsou běžné síťové útoky a problémy jako SYN flood, spoofing nebo sniffing?"],a:["No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet."]},
-  {i:4,q:["Co je distribuovaný systém a jak byste ho poznali na reálném příkladu?", "Jaké jsou základní principy distribuovaných systémů?", "Jaký je rozdíl mezi centralizovanou a distribuovanou architekturou systému?", "Jaké jsou výhody centralizované a distribuované architektury?", "Jaké jsou nevýhody centralizované a distribuované architektury?", "Jaké problémy přináší distribuovaná architektura a jak se typicky řeší?", "Co je fault tolerance a proč je důležitá?", "Co je single point of failure?", "Co je replikace dat a proč se používá?", "Jaké existují typy replikace a jaké mají výhody a nevýhody?", "Jak funguje sdílení dat v distribuovaných systémech?", "Co znamená konzistence dat v distribuovaném systému?", "Co znamená dostupnost v distribuovaném systému?", "Jaké kompromisy vznikají mezi konzistencí, dostupností a odolností vůči výpadkům sítě?", "Co je load balancing?", "Co je architektura orientovaná na služby (SOA) a k čemu se používá?", "Co jsou webové služby a jak souvisejí se SOA?", "Jaký je rozdíl mezi SOAP a REST a kdy byste co zvolili?", "Co je RPC a kdy se používá?", "Co je middleware a jakou má roli?", "Co jsou WSDL, UDDI a ESB?", "Jaké HTTP metody se používají v REST a co znamená jejich idempotence?", "Jaké jsou příklady existujících distribuovaných technologií a jejich využití v praxi?"],a:["No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet."]},
-  {i:5,q:["Co zahrnuje vývoj a nasazení softwarových systémů v OPS specializaci a kde je hranice mezi DEV a OPS?", "Jaké nástroje a prostředí se používají pro vývoj rozsáhlých systémů?", "Jaké nástroje se používají pro build, test, release a deployment a jak do sebe zapadají?", "Jaké základní koncepty softwarových architektur jsou důležité z pohledu implementace a dlouhodobé údržby?", "Co je vícevrstvá architektura a kdy se používá?", "Co je MVC a jaké má výhody a nevýhody?", "Jak volit vhodný programovací jazyk pro projekt?", "Jaké faktory ovlivňují volbu technologie pro backend a integrační vrstvy?", "Co je persistence?", "Co je ORM a jak funguje?", "Jaké jsou výhody a nevýhody ORM?", "Co je lazy loading a eager loading v ORM?", "Jak funguje mapování vztahů v ORM?", "Co je kontinuální integrace?", "Jaký je rozdíl mezi kontinuálním doručováním a kontinuálním nasazováním?", "Jak může vypadat CI/CD pipeline v praxi od commitu až po produkci?", "Jaké typy testů a kontrol mají být součástí pipeline?", "Jak pracovat s artefakty, verzováním a release managementem?", "Co je branching strategy a jak souvisí s nasazováním?", "Jak fungují deployment strategie jako rolling, blue-green nebo canary?", "Jak oddělit dev, test, stage a production prostředí?", "Co je Infrastructure as Code a provisioning?", "Jaké jsou provozní a bezpečnostní aspekty deploymentu?"],a:["No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet."]},
-  {i:6,q:["Co je bezpečná infrastruktura?", "Jaké aspekty ovlivňují bezpečnost systému na úrovni infrastruktury?", "Co je síťová bezpečnost v kontextu infrastruktury?", "Jaké kyberbezpečnostní hrozby typicky cílí na infrastrukturu?", "Jaké jsou příklady útoků jako DDoS, MITM nebo phishing?", "Jak funguje firewall?", "Na jakých vrstvách OSI operuje firewall?", "Jaké existují typy firewallů?", "Co jsou IDS a IPS?", "Co je SIEM a bezpečnostní monitoring?", "Jak navrhovat bezpečnostní mechanismy v infrastruktuře?", "Co je vulnerability scanning?", "Jak se v infrastruktuře detekují zranitelnosti a jak s nimi dál pracovat?", "Co je exploit?", "Co je penetrační testování infrastruktury a co od něj realisticky čekat?", "Jak probíhá analýza bezpečnostního útoku nebo incidentu?", "Jaké bezpečnostní mechanismy existují na síťové úrovni?", "Jak fungují segmentace sítě, DMZ a zero trust přístup?", "Jak souvisí aktualizace, patch management a hardening se zabezpečením systému?", "Jak byste v praxi přistoupili k zabezpečení nově nasazovaného systému?", "Jak bezpečně spravovat identitu, účty a oprávnění v infrastruktuře?", "Jaké typy autentizace existují?", "Co je vícefaktorová autentizace?", "Jaký je rozdíl mezi autentizací a autorizací?", "Co je RBAC a ACL?", "Jak fungují TLS, VPN a certifikáty v infrastruktuře?", "Jak se řeší bezpečnost v cloudovém prostředí?"],a:["No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet."]},
-  {i:7,q:["Co je cloud computing a jaké problémy řeší oproti on-premise provozu?", "Co jsou modely IaaS, PaaS a SaaS a jak se liší na konkrétních příkladech?", "Jaké jsou další modely XaaS?", "Jaký je rozdíl mezi veřejným, privátním a hybridním cloudem?", "Co jsou základní principy návrhu aplikací pro cloudové prostředí?", "Jak cloud ovlivňuje architekturu aplikace?", "Jak fungují cloudové služby v kontextu PaaS?", "Jaké služby pro ukládání dat cloud nabízí?", "Co je virtualizace?", "Jaký je rozdíl mezi virtualizací a kontejnerizací a kdy byste co použili?", "Co je elasticita v cloudu?", "Co je horizontální a vertikální škálování v cloudu?", "Jak cloud zajišťuje vysokou dostupnost?", "Jak se v cloudu řeší výkonnost aplikací?", "Jak se v cloudu řeší škálovatelnost aplikací?", "Jak se v cloudu řeší dostupnost aplikací?", "Jak se v cloudu řeší bezpečnost aplikací a dat?", "Jak monitorovat cloudové aplikace?", "Jak cloud ovlivňuje náklady na provoz a jaké jsou typické nákladové pasti?", "Jaké problémy cloud řeší z pohledu provozu softwarových systémů?", "Jaké jsou typické příklady použití cloud computingu v praxi?"],a:["No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet."]},
-  {i:8,q:["Jaká je role operačního systému?", "Jak funguje jádro (kernel) operačního systému a co typicky zajišťuje?", "Jak jádro spravuje paměť a zařízení?", "Co je virtuální paměť?", "Jak funguje stránkování (paging)?", "Co je segmentace paměti?", "Jak funguje scheduling procesů?", "Jaké existují scheduling algoritmy?", "Co je proces?", "Co je vlákno (thread) a kdy je vhodné dělit úlohu na vlákna místo procesů?", "Jak funguje multitasking?", "Jak funguje práce s procesy v UNIXu?", "Jaký je rozdíl mezi fork() a exec()?", "Jak funguje souborový systém a co od něj operační systém očekává?", "Co je i-node v UNIXu?", "Jak funguje NTFS souborový systém?", "Jak fungují ovladače zařízení?", "Jak fungují vstupní a výstupní operace?", "Jak funguje boot proces?", "Jaká je role shellu v UNIXu?", "Co je init systém?", "Jak funguje základní konfigurace a správa uživatelů v UNIXu?", "Jak fungují oprávnění v UNIXu?", "Jaké síťové služby typicky spravuje operační systém?", "Jak funguje skriptování v UNIXu a ve Windows?", "Jaké jsou rozdíly mezi UNIXem a MS Windows z pohledu správy systému?", "Jak funguje správa uživatelů a zařízení ve Windows?"],a:["No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet."]},
-  {i:9,q:["Co jsou NoSQL databáze a proč vznikly?", "Jaké jsou principy a taxonomie NoSQL databází?", "Jaký je rozdíl mezi relačními a NoSQL databázemi?", "Co jsou distribuované databáze?", "Jak se v distribuovaných databázích řeší konzistence?", "Co je eventual consistency?", "Jak funguje key-value databáze?", "Jak funguje dokumentová databáze?", "Jak funguje column-family databáze?", "Jak funguje grafová databáze a na jaké typy problémů se hodí?", "Jaké jsou hlavní architektury a vlastnosti jednotlivých typů NoSQL databází?", "Kdy je vhodné použít key-value databázi?", "Kdy je vhodné použít dokumentovou databázi?", "Kdy je vhodné použít column-family databázi?", "Kdy je vhodné použít grafovou databázi?", "Jaké jsou výhody a nevýhody NoSQL databází?", "Jaké jsou praktické příklady použití NoSQL databází?", "Kdy by byla relační databáze vhodnější než NoSQL řešení?"],a:["No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet.", "No answer available yet."]},
-];
+    <label class="topic-item">
+      <input type="checkbox" class="topic-checkbox" data-topic-index="0" checked>
+      <span class="topic-badge swe">SWE1</span>
+      <span class="topic-name">Code Quality</span>
+    </label>
 
+    <label class="topic-item">
+      <input type="checkbox" class="topic-checkbox" data-topic-index="1" checked>
+      <span class="topic-badge swe">SWE2</span>
+      <span class="topic-name">Software Engineering</span>
+    </label>
 
+    <label class="topic-item">
+      <input type="checkbox" class="topic-checkbox" data-topic-index="2" checked>
+      <span class="topic-badge swe">SWE3</span>
+      <span class="topic-name">Databases</span>
+    </label>
 
-let isShuffled=false;
-const mainEl=document.getElementById('main');
-const STAT=document.getElementById('textStatus');
-const MARK_LIST=document.getElementById('markList');
-const MARK_META=document.getElementById('markMeta');
+    <label class="topic-item">
+      <input type="checkbox" class="topic-checkbox" data-topic-index="3" checked>
+      <span class="topic-badge swe">SWE4</span>
+      <span class="topic-name">Computer Networks</span>
+    </label>
 
-window.t=(act)=>{
-  if(act==='all') document.querySelectorAll('#sidebar input[type=checkbox]').forEach(c=>c.checked=true);
-  if(act==='none') document.querySelectorAll('#sidebar input[type=checkbox]').forEach(c=>c.checked=false);
-  document.getElementById('textStatus').textContent = act==='none'?'0 questions loaded':'Loading...';
-  apply();
-};
-function apply(){
-  const ids = [];
-  document.querySelectorAll('#sidebar input[type=checkbox]').forEach((c,i)=>c.checked&&ids.push(i));
-  loadSelected(ids);
-}
-function loadSelected(idxIds){
-  let qs = [], as = [];
-  reviewed = {}; marked = {}; flipped = {}; cursor = 0; isShuffled = false;
-  for(let d of EMBEDDED_DATA){
-    if(idxIds.includes(d.i)){
-      qs = qs.concat(d.q);
-      as = as.concat(d.a);
-    }
-  }
-  if(!qs.length){ qs = ['No questions selected.']; as = ['']; }
-  document.getElementById('textStatus').textContent = qs.length+' questions loaded from '+idxIds.length+' topics';
-  questions = qs; answers = as;
-  render();
-}
-function next(){for(let i=cursor+1;i<questions.length;i++){ if(!reviewed[i]){cursor=i;render();return; }} if(cursor>=0)render(); }
-function prev(){for(let i=cursor-1;i>=0;i--){ if(!reviewed[i]){cursor=i;render();return; }} }
-function toggleReviewed(){
-  if(!questions.length) return;
-  if(reviewed[cursor]){delete reviewed[cursor];render();}
-  else{reviewed[cursor]=true;delete marked[cursor];next();return;}
-}
-function mark(){
-  if(!questions.length) return;
-  if(marked[cursor]) delete marked[cursor];
-  else if(!reviewed[cursor]) marked[cursor]=true;
-  render();
-}
-function jumpToMarked(idx){
-  if(idx<0 || idx>=questions.length) return;
-  cursor = idx;
-  render();
-}
-function shuffleAll(){
-  for(let i=questions.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[questions[i],questions[j]]=[questions[j],questions[i]];[answers[i],answers[j]]=[answers[j],answers[i]];}
-  reviewed={};marked={};flipped={};cursor=0;isShuffled=true;render();
-}
-function toggleFlip(){
-  if(!questions.length) return;
-  if(flipped[cursor]) delete flipped[cursor];
-  else flipped[cursor]=true;
-  render();
-}
-function renderMarkedQueue(){
-  const markedIndexes = Object.keys(marked).map(Number).sort((a,b)=>a-b);
-  MARK_META.textContent = markedIndexes.length+' marked question'+(markedIndexes.length===1?'':'s');
-  if(!markedIndexes.length){
-    MARK_LIST.innerHTML = '<div class="mark-empty">Mark questions to build a review queue.</div>';
-    return;
-  }
-  MARK_LIST.innerHTML = markedIndexes.map(i=>{
-    const state = reviewed[i] ? ' done' : '';
-    const active = i===cursor ? ' active' : '';
-    const label = questions[i] || 'Untitled question';
-    return '<button class="mark-item'+state+active+'" onclick="jumpToMarked('+i+')">'+label+'</button>';
-  }).join('');
-}
-function render(){
-  const done = Object.keys(reviewed).length;
-  const total = questions.length;
-  document.getElementById('textStatus').textContent = total>0?(done+' reviewed / '+(total-done)+' remaining ('+total+' total)'):'No questions loaded.';
-  document.getElementById('progress').querySelector('div').style.width = total>0 ? (done/total*100)+'%' : '0%';
-  if(!total){
-    document.getElementById('question').textContent = total===0?'No questions selected — pick themes in the sidebar':'—';
-    document.getElementById('counter').textContent = '';
-    document.getElementById('card').className = 'card';
-    document.getElementById('btnReview').textContent = 'Reviewed ✓';
-    renderMarkedQueue();
-    return;
-  }
-  const q = questions[cursor];
-  if(!reviewed[cursor]){ /* good */ }
-  const isFlipped = flipped[cursor];
-  document.getElementById('question').innerHTML = (isFlipped ? answers[cursor] : q).replace(/\n/g, '<br>') || 'All done!';
-  document.getElementById('counter').textContent = (cursor+1)+' / '+total;
-  document.getElementById('card').className = 'card'+(reviewed[cursor]?' reviewed':'')+(marked[cursor]?' marked':'')+(flipped[cursor]?' flipped':'');
-  document.getElementById('btnReview').textContent = reviewed[cursor]?'Undo':'Reviewed ✓';
-  renderMarkedQueue();
-}
-document.addEventListener('keydown',e=>{
-  if(document.activeElement !== document.body) return;
-  if(e.key==='ArrowRight'||e.key==='ArrowDown'){ e.preventDefault(); next(); }
-  if(e.key==='ArrowLeft'||e.key==='ArrowUp'){ e.preventDefault(); prev(); }
-  if(e.key===' '||e.key==='f'||e.key==='F'){ e.preventDefault(); toggleFlip(); }
-  if(e.key==='r'||e.key==='R'){ e.preventDefault(); toggleReviewed(); }
-  if(e.key==='m'||e.key==='M'){ e.preventDefault(); mark(); }
-  if(e.key==='s'||e.key==='S'){ e.preventDefault(); shuffleAll(); }
-});
-loadSelected([0,1,2,3,4,5,6,7,8,9]);
-</script></body></html>
+    <label class="topic-item">
+      <input type="checkbox" class="topic-checkbox" data-topic-index="4" checked>
+      <span class="topic-badge swe">SWE5</span>
+      <span class="topic-name">Distributed Systems</span>
+    </label>
+
+    <!-- OPS Specialization (OPS 1–5) -->
+    <span class="topic-group-label">OPS Specialization</span>
+
+    <label class="topic-item">
+      <input type="checkbox" class="topic-checkbox" data-topic-index="5" checked>
+      <span class="topic-badge ops">OPS1</span>
+      <span class="topic-name">Development &amp; Deployment</span>
+    </label>
+
+    <label class="topic-item">
+      <input type="checkbox" class="topic-checkbox" data-topic-index="6" checked>
+      <span class="topic-badge ops">OPS2</span>
+      <span class="topic-name">Secure Infrastructure</span>
+    </label>
+
+    <label class="topic-item">
+      <input type="checkbox" class="topic-checkbox" data-topic-index="7" checked>
+      <span class="topic-badge ops">OPS3</span>
+      <span class="topic-name">Cloud Computing</span>
+    </label>
+
+    <label class="topic-item">
+      <input type="checkbox" class="topic-checkbox" data-topic-index="8" checked>
+      <span class="topic-badge ops">OPS4</span>
+      <span class="topic-name">Operating Systems</span>
+    </label>
+
+    <label class="topic-item">
+      <input type="checkbox" class="topic-checkbox" data-topic-index="9" checked>
+      <span class="topic-badge ops">OPS5</span>
+      <span class="topic-name">NoSQL Databases</span>
+    </label>
+
+    <!-- Marked Questions Queue -->
+    <section class="sidebar-panel" aria-label="Marked questions">
+      <h3>Marked Queue</h3>
+      <div class="queue-meta" id="markMeta">0 marked questions</div>
+      <div class="mark-list" id="markList">
+        <div class="mark-empty">Mark questions to build a review queue.</div>
+      </div>
+    </section>
+
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!--  Main — Flashcard Area                                             -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <main id="main">
+
+    <div class="stats" id="textStatus">Loading…</div>
+
+    <div id="progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+      <div></div>
+    </div>
+
+    <!-- 3D Flip Card -->
+    <div class="card-container">
+      <article class="card" id="card" role="button" tabindex="0" aria-label="Flashcard – click or press Space to flip">
+        <div class="card-front">
+          <span id="question"></span>
+        </div>
+        <div class="card-back">
+          <span id="answer"></span>
+        </div>
+      </article>
+    </div>
+
+    <div class="counter" id="counter" aria-live="polite"></div>
+
+    <div class="controls-bar">
+      <button id="btn-shuffle" type="button" aria-label="Shuffle questions">⟳ Shuffle</button>
+      <button id="btn-mark" type="button" class="warn" aria-label="Mark question for review">✦ Mark</button>
+      <button id="btn-review" type="button" class="primary" aria-label="Mark as reviewed">Reviewed ✓</button>
+      <button id="btn-flip" type="button" aria-label="Flip card">↺ Flip</button>
+      <button id="btn-prev" type="button" aria-label="Previous question">◀</button>
+      <button id="btn-next" type="button" aria-label="Next question">▶</button>
+    </div>
+
+    <div class="hotkeys" aria-hidden="true">
+      <kbd>→</kbd><kbd>↓</kbd> next
+      <span class="hotkey-sep">|</span>
+      <kbd>←</kbd><kbd>↑</kbd> prev
+      <span class="hotkey-sep">|</span>
+      <kbd>Space</kbd><kbd>F</kbd> flip
+      <span class="hotkey-sep">|</span>
+      <kbd>R</kbd> review
+      <span class="hotkey-sep">|</span>
+      <kbd>M</kbd> mark
+      <span class="hotkey-sep">|</span>
+      <kbd>S</kbd> shuffle
+    </div>
+
+  </main>
+
+  <!-- Scripts: data first (generated by rebuild.py), then app logic -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>

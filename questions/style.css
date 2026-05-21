@@ -1,0 +1,1065 @@
+/* ============================================================
+   FLASHCARDS STUDY APP — Premium Dark-Mode Stylesheet
+   ============================================================
+   A glassmorphic, dark-mode design system for SWE/OPS exam
+   flashcard study. Built with CSS custom properties, fluid
+   typography, 3D transforms, and micro-animations.
+   ============================================================ */
+
+/* ============================================================
+   1. DESIGN TOKENS (Custom Properties)
+   ============================================================ */
+:root {
+  /* ── Color Palette ──────────────────────────────────────── */
+  --clr-bg-deep:        hsl(220, 40%, 7%);
+  --clr-bg-surface:     hsl(220, 35%, 10%);
+  --clr-bg-elevated:    hsl(220, 30%, 13%);
+  --clr-bg-glass:       hsla(220, 35%, 12%, 0.65);
+  --clr-bg-glass-hover: hsla(220, 35%, 16%, 0.75);
+
+  --clr-border:         hsla(220, 30%, 25%, 0.35);
+  --clr-border-subtle:  hsla(220, 30%, 20%, 0.25);
+
+  --clr-text:           hsl(220, 60%, 95%);
+  --clr-text-secondary: hsl(220, 20%, 75%);
+  --clr-text-muted:     hsl(220, 20%, 65%);
+  --clr-text-dim:       hsl(220, 15%, 45%);
+
+  /* Accent — soft blue-purple */
+  --clr-accent:         hsl(230, 70%, 60%);
+  --clr-accent-soft:    hsla(230, 70%, 60%, 0.15);
+  --clr-accent-glow:    hsla(230, 70%, 60%, 0.30);
+
+  /* Success — emerald green */
+  --clr-success:        hsl(148, 50%, 38%);
+  --clr-success-soft:   hsla(148, 50%, 38%, 0.12);
+  --clr-success-glow:   hsla(148, 50%, 42%, 0.25);
+  --clr-success-border: hsla(148, 50%, 42%, 0.40);
+
+  /* Warning — warm amber */
+  --clr-warn:           hsl(38, 70%, 48%);
+  --clr-warn-soft:      hsla(38, 70%, 48%, 0.12);
+  --clr-warn-glow:      hsla(38, 70%, 48%, 0.25);
+  --clr-warn-border:    hsla(38, 70%, 48%, 0.40);
+
+  /* SWE badge — blue tint */
+  --clr-badge-swe:      hsla(215, 70%, 55%, 0.18);
+  --clr-badge-swe-text: hsl(215, 70%, 72%);
+  --clr-badge-swe-ring: hsla(215, 70%, 55%, 0.30);
+
+  /* OPS badge — green tint */
+  --clr-badge-ops:      hsla(155, 55%, 42%, 0.18);
+  --clr-badge-ops-text: hsl(155, 55%, 65%);
+  --clr-badge-ops-ring: hsla(155, 55%, 42%, 0.30);
+
+  --clr-bg-gradient-1:  hsla(230, 60%, 22%, 0.18);
+  --clr-bg-gradient-2:  hsla(260, 50%, 18%, 0.12);
+
+  --clr-card-bg:                hsla(220, 30%, 13%, 0.72);
+  --clr-card-reviewed-bg:       hsla(148, 30%, 13%, 0.55);
+  --clr-card-reviewed-glow:     inset 0 0 40px hsla(148, 40%, 20%, 0.06);
+  --clr-card-marked-bg:         hsla(38, 25%, 13%, 0.55);
+  --clr-card-marked-glow:       inset 0 0 40px hsla(38, 40%, 20%, 0.06);
+
+  /* ── Typography ─────────────────────────────────────────── */
+  --font-sans:          'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --fs-xs:              clamp(0.65rem,  0.6rem + 0.25vw,  0.75rem);
+  --fs-sm:              clamp(0.75rem,  0.7rem + 0.3vw,   0.85rem);
+  --fs-base:            clamp(0.85rem,  0.8rem + 0.35vw,  1rem);
+  --fs-md:              clamp(0.95rem,  0.85rem + 0.4vw,  1.1rem);
+  --fs-lg:              clamp(1.1rem,   1rem + 0.5vw,     1.35rem);
+  --fs-xl:              clamp(1.3rem,   1.1rem + 0.8vw,   1.75rem);
+  --fs-2xl:             clamp(1.5rem,   1.2rem + 1.2vw,   2.25rem);
+  --fs-card:            clamp(1.15rem,  1rem + 0.7vw,     1.5rem);
+
+  --fw-normal:          400;
+  --fw-medium:          500;
+  --fw-semibold:        600;
+  --fw-bold:            700;
+
+  --lh-tight:           1.3;
+  --lh-normal:          1.6;
+
+  /* ── Spacing ────────────────────────────────────────────── */
+  --space-xs:           0.25rem;
+  --space-sm:           0.5rem;
+  --space-md:           1rem;
+  --space-lg:           1.5rem;
+  --space-xl:           2rem;
+  --space-2xl:          3rem;
+
+  /* ── Radii ──────────────────────────────────────────────── */
+  --radius-sm:          6px;
+  --radius-md:          10px;
+  --radius-lg:          14px;
+  --radius-xl:          20px;
+  --radius-2xl:         24px;
+  --radius-pill:        100px;
+
+  /* ── Shadows ────────────────────────────────────────────── */
+  --shadow-sm:          0 1px 3px hsla(0, 0%, 0%, 0.25);
+  --shadow-md:          0 4px 12px hsla(0, 0%, 0%, 0.30),
+                        0 1px 4px  hsla(0, 0%, 0%, 0.20);
+  --shadow-lg:          0 8px 30px hsla(0, 0%, 0%, 0.35),
+                        0 2px 8px  hsla(0, 0%, 0%, 0.25);
+  --shadow-card:        0 4px 20px  hsla(0, 0%, 0%, 0.30),
+                        0 12px 40px hsla(0, 0%, 0%, 0.20),
+                        0 1px 3px   hsla(0, 0%, 0%, 0.15);
+  --shadow-glow-accent: 0 0 20px var(--clr-accent-glow),
+                        0 0 60px hsla(230, 70%, 60%, 0.08);
+
+  /* ── Transitions ────────────────────────────────────────── */
+  --ease-out:           cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring:        cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast:      150ms;
+  --duration-normal:    250ms;
+  --duration-slow:      400ms;
+  --duration-flip:      350ms;
+
+  /* ── Layout ─────────────────────────────────────────────── */
+  --sidebar-width:      300px;
+  --card-max-width:     1000px;
+  --card-min-height:    500px;
+}
+
+:root[data-theme="light"] {
+  --clr-bg-deep:        hsl(220, 25%, 96%);
+  --clr-bg-surface:     hsl(220, 25%, 98%);
+  --clr-bg-elevated:    hsl(220, 20%, 99%);
+  --clr-bg-glass:       hsla(220, 25%, 98%, 0.85);
+  --clr-bg-glass-hover: hsla(220, 25%, 95%, 0.9);
+
+  --clr-border:         hsla(220, 20%, 80%, 0.8);
+  --clr-border-subtle:  hsla(220, 20%, 85%, 0.6);
+
+  --clr-text:           hsl(220, 40%, 15%);
+  --clr-text-secondary: hsl(220, 25%, 35%);
+  --clr-text-muted:     hsl(220, 20%, 45%);
+  --clr-text-dim:       hsl(220, 15%, 55%);
+
+  --clr-accent:         hsl(230, 70%, 55%);
+  --clr-accent-soft:    hsla(230, 70%, 55%, 0.15);
+  --clr-accent-glow:    hsla(230, 70%, 55%, 0.30);
+
+  --clr-success:        hsl(148, 60%, 32%);
+  --clr-success-soft:   hsla(148, 60%, 32%, 0.12);
+  --clr-success-glow:   hsla(148, 60%, 32%, 0.25);
+  --clr-success-border: hsla(148, 60%, 32%, 0.40);
+
+  --clr-warn:           hsl(38, 90%, 42%);
+  --clr-warn-soft:      hsla(38, 90%, 42%, 0.12);
+  --clr-warn-glow:      hsla(38, 90%, 42%, 0.25);
+  --clr-warn-border:    hsla(38, 90%, 42%, 0.40);
+
+  --clr-badge-swe:      hsla(215, 70%, 55%, 0.15);
+  --clr-badge-swe-text: hsl(215, 80%, 40%);
+  --clr-badge-swe-ring: hsla(215, 70%, 55%, 0.30);
+
+  --clr-badge-ops:      hsla(155, 55%, 42%, 0.15);
+  --clr-badge-ops-text: hsl(155, 70%, 32%);
+  --clr-badge-ops-ring: hsla(155, 55%, 42%, 0.30);
+
+  --clr-bg-gradient-1:  hsla(230, 60%, 85%, 0.4);
+  --clr-bg-gradient-2:  hsla(260, 50%, 85%, 0.3);
+
+  --clr-card-bg:                hsla(220, 25%, 100%, 0.85);
+  --clr-card-reviewed-bg:       hsla(148, 50%, 92%, 0.85);
+  --clr-card-reviewed-glow:     inset 0 0 40px hsla(148, 50%, 80%, 0.15);
+  --clr-card-marked-bg:         hsla(38, 50%, 94%, 0.85);
+  --clr-card-marked-glow:       inset 0 0 40px hsla(38, 50%, 80%, 0.15);
+
+  --shadow-sm:          0 1px 3px hsla(220, 20%, 20%, 0.08);
+  --shadow-md:          0 4px 12px hsla(220, 20%, 20%, 0.1),
+                        0 1px 4px  hsla(220, 20%, 20%, 0.06);
+  --shadow-lg:          0 8px 30px hsla(220, 20%, 20%, 0.12),
+                        0 2px 8px  hsla(220, 20%, 20%, 0.08);
+  --shadow-card:        0 4px 20px  hsla(220, 20%, 20%, 0.08),
+                        0 12px 40px hsla(220, 20%, 20%, 0.06),
+                        0 1px 3px   hsla(220, 20%, 20%, 0.04);
+}
+
+
+/* ============================================================
+   2. RESET & BASE
+   ============================================================ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-normal);
+  line-height: var(--lh-normal);
+  color: var(--clr-text);
+  background: var(--clr-bg-deep);
+  min-height: 100vh;
+  display: flex;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle background texture — radial gradient vignette */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, var(--clr-bg-gradient-1), transparent),
+    radial-gradient(ellipse 60% 50% at 80% 100%, var(--clr-bg-gradient-2), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+/* ============================================================
+   3. SCROLLBAR STYLING
+   ============================================================ */
+
+/* --- Webkit (Chrome, Edge, Safari) --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsla(220, 20%, 40%, 0.35);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsla(220, 20%, 50%, 0.50);
+}
+
+/* --- Firefox --- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsla(220, 20%, 40%, 0.35) transparent;
+}
+
+
+/* ============================================================
+   4. SIDEBAR
+   ============================================================ */
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
+  z-index: 100;
+
+  /* Glassmorphism */
+  background: var(--clr-bg-glass);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-right: 1px solid var(--clr-border);
+
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--space-lg) 0;
+
+  /* Smooth slide-in on load */
+  animation: slideInLeft var(--duration-slow) var(--ease-out) both;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Sidebar Title ───────────────────────────────────────── */
+#sidebar h2 {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--clr-text);
+  padding: 0 var(--space-lg) var(--space-md);
+  letter-spacing: -0.02em;
+  line-height: var(--lh-tight);
+}
+
+/* ── Sidebar Actions (All / None buttons) ────────────────── */
+.sidebar-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-sm);
+  padding: 0 var(--space-lg) var(--space-md);
+}
+
+.sidebar-actions button {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--clr-text-secondary);
+  background: var(--clr-bg-elevated);
+  border: 1px solid var(--clr-border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs) var(--space-sm);
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.sidebar-actions button:hover {
+  background: var(--clr-bg-glass-hover);
+  color: var(--clr-text);
+  border-color: var(--clr-border);
+}
+
+.sidebar-actions button:active {
+  transform: scale(0.96);
+}
+
+
+/* ── Topic Groups ────────────────────────────────────────── */
+.topic-group-label {
+  display: block;
+  padding: var(--space-md) var(--space-lg) var(--space-xs);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--clr-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+
+/* ── Topic Items (checkbox labels) ───────────────────────── */
+.topic-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-lg);
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+  user-select: none;
+}
+
+.topic-item:hover {
+  background: hsla(220, 30%, 18%, 0.45);
+  transform: translateX(2px);
+}
+
+/* When the inner checkbox is checked, highlight the item */
+.topic-item:has(input:checked) {
+  border-left-color: var(--clr-accent);
+  background: var(--clr-accent-soft);
+}
+
+/* Hide native checkbox, use custom styling */
+.topic-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  border: 1.5px solid var(--clr-text-dim);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+}
+
+.topic-item input[type="checkbox"]:checked {
+  background: var(--clr-accent);
+  border-color: var(--clr-accent);
+}
+
+.topic-item input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 4.5px;
+  width: 4.5px;
+  height: 8px;
+  border: solid var(--clr-text);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* ── Topic Badge (colored pill) ──────────────────────────── */
+.topic-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* SWE badges — blue tint */
+.topic-badge.swe,
+.topic-badge[data-type="swe"] {
+  background: var(--clr-badge-swe);
+  color: var(--clr-badge-swe-text);
+  border: 1px solid var(--clr-badge-swe-ring);
+}
+
+/* OPS badges — green tint */
+.topic-badge.ops,
+.topic-badge[data-type="ops"] {
+  background: var(--clr-badge-ops);
+  color: var(--clr-badge-ops-text);
+  border: 1px solid var(--clr-badge-ops-ring);
+}
+
+/* ── Topic Name ──────────────────────────────────────────── */
+.topic-name {
+  font-size: var(--fs-sm);
+  color: var(--clr-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.topic-item:hover .topic-name {
+  color: var(--clr-text);
+}
+
+
+/* ── Sidebar Panel — Marked Queue ────────────────────────── */
+.sidebar-panel {
+  margin-top: auto;
+  border-top: 1px solid var(--clr-border);
+  padding: var(--space-md) var(--space-lg) var(--space-sm);
+}
+
+.sidebar-panel h3,
+.sidebar-panel > strong {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--clr-text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.queue-meta {
+  font-size: var(--fs-xs);
+  color: var(--clr-text-dim);
+  margin-bottom: var(--space-sm);
+}
+
+/* ── Mark List ───────────────────────────────────────────── */
+.mark-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.mark-item {
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  color: var(--clr-text-secondary);
+  background: hsla(220, 25%, 15%, 0.5);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-sm);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.mark-item:hover {
+  background: hsla(220, 25%, 20%, 0.6);
+  color: var(--clr-text);
+}
+
+.mark-item.active {
+  border-color: var(--clr-warn-border);
+  background: var(--clr-warn-soft);
+  color: var(--clr-warn);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.mark-item.done {
+  opacity: 0.45;
+  text-decoration: line-through;
+  color: var(--clr-text-dim);
+}
+
+.mark-item.done:hover {
+  opacity: 0.7;
+}
+
+.mark-empty {
+  font-size: var(--fs-xs);
+  color: var(--clr-text-dim);
+  font-style: italic;
+  padding: var(--space-sm) 0;
+}
+
+
+/* ============================================================
+   5. MAIN AREA
+   ============================================================ */
+#main {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) var(--space-lg);
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  gap: var(--space-md);
+}
+
+
+/* ── Status Text ─────────────────────────────────────────── */
+.stats,
+#textStatus {
+  font-size: var(--fs-sm);
+  color: var(--clr-text-muted);
+  text-align: center;
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.01em;
+}
+
+
+/* ============================================================
+   6. PROGRESS BAR
+   ============================================================ */
+#progress {
+  width: 100%;
+  max-width: var(--card-max-width);
+  height: 6px;
+  background: hsla(220, 25%, 18%, 0.6);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 12px hsla(148, 50%, 38%, 0.06);
+}
+
+#progress > div {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background:
+    linear-gradient(
+      90deg,
+      var(--clr-success),
+      hsl(148, 55%, 48%),
+      var(--clr-success)
+    );
+  background-size: 200% 100%;
+  animation: shimmer 2.5s ease-in-out infinite;
+  transition: width var(--duration-slow) var(--ease-out);
+  position: relative;
+}
+
+/* Glow beneath the filled portion */
+#progress > div::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 0 14px var(--clr-success-glow),
+              0 0 28px hsla(148, 50%, 40%, 0.10);
+  opacity: 0.7;
+}
+
+
+/* ============================================================
+   7. FLASHCARD — 3D Flip Animation
+   ============================================================ */
+
+/* ── Container — sets perspective ────────────────────────── */
+.card-container {
+  perspective: 1200px;
+  width: 100%;
+  max-width: var(--card-max-width);
+  min-height: var(--card-min-height);
+  animation: fadeInUp var(--duration-slow) var(--ease-out) both;
+}
+
+/* ── Card — the flippable element ────────────────────────── */
+.card,
+#card {
+  position: relative;
+  width: 100%;
+  min-height: var(--card-min-height);
+  transform-style: preserve-3d;
+  transition: transform var(--duration-flip) var(--ease-spring);
+  cursor: pointer;
+  border-radius: var(--radius-2xl);
+}
+
+/* ── Flipped state ───────────────────────────────────────── */
+.card.flipped,
+#card.flipped {
+  transform: rotateY(180deg);
+}
+
+/* ── Shared face styles ──────────────────────────────────── */
+.card-front,
+.card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius-2xl);
+  padding: var(--space-2xl) var(--space-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+
+  /* Glassmorphism */
+  background: var(--clr-card-bg);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  border: 1px solid var(--clr-border);
+
+  /* Layered depth shadows */
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Front face ──────────────────────────────────────────── */
+.card-front {
+  transform: rotateY(0deg);
+}
+
+.card-front #question,
+.card-front span {
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-bold);
+  color: var(--clr-text);
+  text-align: center;
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
+}
+
+/* ── Back face ───────────────────────────────────────────── */
+.card-back {
+  transform: rotateY(180deg);
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.card-back #answer,
+.card-back span {
+  font-size: var(--fs-card);
+  font-weight: var(--fw-normal);
+  color: var(--clr-text-secondary);
+  text-align: left;
+  line-height: var(--lh-normal);
+  white-space: pre-line;
+  width: 100%;
+  word-break: break-word;
+}
+
+/* ── Reviewed state (green glow) ─────────────────────────── */
+.card.reviewed .card-front,
+.card.reviewed .card-back {
+  background: var(--clr-card-reviewed-bg);
+  border-color: var(--clr-success-border);
+  box-shadow:
+    var(--shadow-card),
+    0 0 24px var(--clr-success-glow),
+    var(--clr-card-reviewed-glow);
+}
+
+/* ── Marked state (amber glow) ───────────────────────────── */
+.card.marked .card-front,
+.card.marked .card-back {
+  background: var(--clr-card-marked-bg);
+  border-color: var(--clr-warn-border);
+  box-shadow:
+    var(--shadow-card),
+    0 0 24px var(--clr-warn-glow),
+    var(--clr-card-marked-glow);
+}
+
+
+/* ============================================================
+   8. COUNTER
+   ============================================================ */
+.counter,
+#counter {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  color: var(--clr-text-muted);
+  text-align: center;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* ============================================================
+   9. CONTROLS BAR
+   ============================================================ */
+.controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: 100%;
+  max-width: var(--card-max-width);
+}
+
+/* ── Base Button ─────────────────────────────────────────── */
+.controls-bar button {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--clr-text-secondary);
+  background: var(--clr-bg-elevated);
+  border: 1px solid var(--clr-border-subtle);
+  border-radius: 12px;
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.controls-bar button:hover {
+  background: var(--clr-bg-glass-hover);
+  color: var(--clr-text);
+  border-color: var(--clr-border);
+  transform: scale(1.02);
+}
+
+.controls-bar button:active {
+  transform: scale(0.98);
+}
+
+/* ── Primary Button (green gradient) ─────────────────────── */
+.controls-bar button.primary {
+  background: linear-gradient(
+    135deg,
+    hsl(148, 45%, 30%),
+    hsl(148, 50%, 38%)
+  );
+  color: hsl(148, 80%, 95%);
+  border-color: var(--clr-success-border);
+  font-weight: var(--fw-semibold);
+}
+
+.controls-bar button.primary:hover {
+  background: linear-gradient(
+    135deg,
+    hsl(148, 48%, 34%),
+    hsl(148, 55%, 42%)
+  );
+  color: #fff;
+  box-shadow: 0 0 16px var(--clr-success-glow);
+  transform: scale(1.02);
+}
+
+.controls-bar button.primary:active {
+  transform: scale(0.98);
+}
+
+/* ── Warn Button (amber tint) ────────────────────────────── */
+.controls-bar button.warn {
+  background: var(--clr-warn-soft);
+  color: var(--clr-warn);
+  border-color: var(--clr-warn-border);
+}
+
+.controls-bar button.warn:hover {
+  background: hsla(38, 70%, 48%, 0.22);
+  color: hsl(38, 80%, 60%);
+  box-shadow: 0 0 16px var(--clr-warn-glow);
+  transform: scale(1.02);
+}
+
+.controls-bar button.warn:active {
+  transform: scale(0.98);
+}
+
+
+/* ============================================================
+   10. KEYBOARD HINTS
+   ============================================================ */
+.hotkeys {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm) var(--space-md);
+  font-size: var(--fs-xs);
+  color: var(--clr-text-dim);
+  padding-top: var(--space-sm);
+}
+
+kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: var(--fw-medium);
+  color: var(--clr-text-muted);
+  background: var(--clr-bg-elevated);
+  border: 1px solid var(--clr-border);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.2);
+  line-height: 1;
+  vertical-align: baseline;
+}
+
+.hotkey-sep {
+  color: var(--clr-border);
+  margin: 0 var(--space-xs);
+}
+
+
+/* ============================================================
+   11. KEYFRAME ANIMATIONS
+   ============================================================ */
+
+/* Card entrance — fade + slide up */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Progress bar shimmer */
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Subtle pulse for active marked items */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 var(--clr-warn-glow);
+  }
+  50% {
+    opacity: 0.88;
+    box-shadow: 0 0 8px var(--clr-warn-glow);
+  }
+}
+
+
+/* ============================================================
+   12. ACCESSIBILITY
+   ============================================================ */
+
+/* ── Focus-Visible ───────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--clr-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Cards and buttons get a softer glow */
+.card:focus-visible,
+#card:focus-visible {
+  outline-offset: 4px;
+  box-shadow: var(--shadow-glow-accent);
+}
+
+button:focus-visible {
+  outline-offset: 2px;
+}
+
+/* ── Reduced Motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .card,
+  #card {
+    transition: none !important;
+  }
+
+  #progress > div {
+    animation: none;
+  }
+}
+
+
+/* ============================================================
+   13. RESPONSIVE — ≤ 900px
+   ============================================================ */
+@media (max-width: 900px) {
+  body {
+    flex-direction: column;
+  }
+
+  /* Sidebar → horizontal top bar */
+  #sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    max-height: 35vh;
+    border-right: none;
+    border-bottom: 1px solid var(--clr-border);
+    flex-direction: column;
+    padding: var(--space-md) 0;
+    animation: none;
+  }
+
+  #sidebar h2 {
+    font-size: var(--fs-md);
+    padding: 0 var(--space-md) var(--space-xs);
+  }
+
+  .sidebar-actions {
+    padding: 0 var(--space-md) var(--space-sm);
+  }
+
+  .topic-group-label {
+    padding: var(--space-xs) var(--space-md);
+  }
+
+  .topic-item {
+    padding: var(--space-xs) var(--space-md);
+  }
+
+  .sidebar-panel {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .mark-list {
+    max-height: 100px;
+  }
+
+  /* Main area adjustments */
+  #main {
+    margin-left: 0;
+    padding: var(--space-md) var(--space-sm);
+    min-height: auto;
+    flex: 1;
+  }
+
+  .card-container {
+    max-width: 100%;
+  }
+
+  .card-front,
+  .card-back {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .card-front #question,
+  .card-front span {
+    font-size: var(--fs-xl);
+  }
+
+  /* Larger touch targets */
+  .controls-bar button {
+    min-height: 48px;
+    min-width: 48px;
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--fs-base);
+  }
+
+  .controls-bar {
+    gap: var(--space-sm);
+  }
+
+  .hotkeys {
+    font-size: var(--fs-xs);
+    gap: var(--space-xs) var(--space-sm);
+  }
+}
+
+/* ── Extra small screens ─────────────────────────────────── */
+@media (max-width: 480px) {
+  :root {
+    --card-min-height: 260px;
+  }
+
+  #sidebar {
+    max-height: 30vh;
+  }
+
+  #main {
+    padding: var(--space-sm);
+    gap: var(--space-sm);
+  }
+
+  .card-front,
+  .card-back {
+    padding: var(--space-md);
+    border-radius: var(--radius-xl);
+  }
+
+  .card,
+  #card {
+    border-radius: var(--radius-xl);
+  }
+
+  .controls-bar {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .controls-bar button {
+    width: 100%;
+    justify-content: center;
+  }
+}

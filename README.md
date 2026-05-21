@@ -14,10 +14,11 @@ Stačí otevřít `questions/index.html` v prohlížeči — vše je vloženo p�
 
 ## Jak to funguje
 
-- 10 témat (SWE1–SWE5, OPS1–OPS5) po 18–38 otázkách = celkem **264 otázek**
+- 10 témat (SWE1–SWE5, OPS1–OPS5) po 18–48 otázkách = celkem **282 otázek**
 - Kliknutím na kartu / klávesou `F` / mezerníkem **překlopíš** otázku na odpověď
 - `→`/`↓` další, `←`/`↑` předchozí, `R` označit jako vyřešenou, `M` označit pro pozdější review, `S` zamíchat
-- Zatím jsou vyplněny jen odpovědi pro **SWE1 (Kvalita kódu)** a **SWE2 (Softwarové inženýrství)**
+- Stav se ukládá do localStorage — pokračuj, kde jsi skončil
+- Zatím jsou vyplněny jen odpovědi pro **SWE1 (Kvalita kódu)**, **SWE2 (Softwarové inženýrství)** a **SWE3 (Databáze)**
 
 ## Struktura
 
@@ -25,8 +26,12 @@ Stačí otevřít `questions/index.html` v prohlížeči — vše je vloženo p�
 .
 ├── .github/workflows/pages.yml
 ├── index.html                              → přesměrování na /questions/
+├── rebuild.py                              → generátor data.js z topic souborů
 ├── questions/
-│   ├── index.html                          → self-contained flashcards
+│   ├── index.html                          → HTML (sémantický markup)
+│   ├── style.css                           → design system (dark mode, glassmorphism)
+│   ├── app.js                              → aplikační logika
+│   ├── data.js                             → generovaná data (rebuild.py)
 │   └── topics/
 │       ├── SWE1_kvalita_kodu.txt           → otázky
 │       ├── ...
