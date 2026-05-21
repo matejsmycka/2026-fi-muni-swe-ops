@@ -178,18 +178,22 @@
     loadSelectedTopics(indices);
   }
 
+  /** @type {Array<{i:number, name:string, q:string[], a:string[]}>|null} */
+  let TOPIC_DATA = null;
+
   /**
    * Combine questions and answers from the selected
-   * `EMBEDDED_DATA` entries, reset transient state, restore
+   * topic data entries, reset transient state, restore
    * persisted progress, and render.
    * @param {Set<number>} topicIndices - Topic indices to include.
    * @returns {void}
    */
   function loadSelectedTopics(topicIndices) {
+    if (!TOPIC_DATA) return;
     const questions = [];
     const answers = [];
 
-    EMBEDDED_DATA.forEach((entry) => {
+    TOPIC_DATA.forEach((entry) => {
       if (!topicIndices.has(entry.i)) return;
       entry.q.forEach((q, idx) => {
         questions.push(q);
@@ -558,9 +562,16 @@
    * (all selected) topics, and performs the initial render.
    * @returns {void}
    */
-  function initApp() {
+  async function initApp() {
     initTheme();
     bindEvents();
+    try {
+      const resp = await fetch('data.json');
+      TOPIC_DATA = await resp.json();
+    } catch (err) {
+      console.error('Failed to load data.json:', err);
+      return;
+    }
     loadSelectedTopics(state.selectedTopics);
   }
 
