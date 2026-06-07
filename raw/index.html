@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generator náhodných otázek</title>
+</head>
+<body>
+
+<h1>Generator náhodných otázek — PV260, PA017 (SWE + OPS)</h1>
+<p>Klikni na tlačítko pro vygenerování náhodné podotázky.</p>
+<button onclick="generate()">Vygenerovat náhodnou otázku</button>
+
+<h2 id="question" style="margin-top:20px;"></h2>
+<hr>
+
+<h3>Seznam všech témat:</h3>
+<ol id="all-topics"></ol>
+
+<script>
+const topics = [
+  // SWE – Softwarové inženýrství (společná část)
+  {
+    area: "Kvalita kódu (PV260, PA017)",
+    questions: [
+      "Jaká je kvalita ve vývoji softwarových systémů?",
+      "Jaké jsou atributy kvality a softwarové metriky?",
+      "Jaké taktiky se používají pro zajištění kvality na úrovni jednotlivých atributů?",
+      "Jaké jsou principy Clean Code a SOLID?",
+      "Co je refaktoring kódu a jak se provádí?",
+      "Jak probíhá testování kódu – jednotkové testy, integrační testy?",
+      "Co jsou uživatelské a akceptační testy?",
+      "Jak probíhá ladění a testování výkonu?",
+      "Jaký je proces řízení kvality ve vývoji softwarových systémů?",
+      "Uveď příklad z praxe pro kvalitu kódu."
+    ]
+  },
+  {
+    area: "Softwarové inženýrství (PA017)",
+    questions: [
+      "Jaký je životní cyklus softwaru?",
+      "Jak probíhá proces vývoje a řízení softwarového vývoje?",
+      "Co je metodika Rational Unified Process (UP, RUP)?",
+      "Jaké jsou agilní metodiky a principy agilního vývoje SW?",
+      "Jak probíhá nasazení a provoz softwarových systémů?",
+      "Jaká je údržba softwarových systémů a co je znovupoužitelnost?",
+      "Uveď příklad z praxe pro softwarové inženýrství."
+    ]
+  },
+  {
+    area: "Databáze (PV003 || PA152)",
+    questions: [
+      "Jaké jsou principy ukládání dat a databáze?",
+      "Jaká je architektura relačních databází?",
+      "Jaké části má dotazovací jazyk SQL (DDL, DML, transakce)?",
+      "Co je jazyk definice datového schématu (DDL)?",
+      "Co je jazyk manipulace s daty (DML)?",
+      "Co je relační algebra a jak se používá?",
+      "Co jsou integritní omezení a jak funguje řízení transakcí?",
+      "Co je indexování a hašování?",
+      "Uveď příklad z praxe pro databáze."
+    ]
+  },
+  {
+    area: "Počítačové sítě (PA159, PA191)",
+    questions: [
+      "Jaké jsou koncepty, principy a architektury počítačových sítí?",
+      "Jak funguje ISO/OSI a TCP/IP model?",
+      "Co je IP protokol a jak fungují transportní protokoly TCP a UDP?",
+      "Jaké protokoly fungují na síťových vrstvách?",
+      "Jaké jsou funkce IPv4 a pokročilé funkce IPv6?",
+      "Co jsou peer-to-peer (P2P) sítě?",
+      "Co jsou ad-hoc/senzorové sítě?",
+      "Co jsou vysokorychlostní sítě a počítačové sítě a multimédia?",
+      "Uveď příklad z praxe pro počítačové sítě."
+    ]
+  },
+  {
+    area: "Distribuované systémy (PA053)",
+    questions: [
+      "Jaké jsou základní pojmy a principy distribuovaných systémů?",
+      "Jaký je rozdíl mezi centralizovanou a distribuovanou architekturou?",
+      "Jaké jsou nevýhody centralizované i distribuované architektury a jak se překonávají?",
+      "Co je replikace a sdílení dat?",
+      "Co je architektura orientovaná na služby (SOA) a webové služby?",
+      "Jaké existující technologie a jejich využití znáš?",
+      "Uveď příklad z praxe pro distribuované systémy."
+    ]
+  },
+
+  // OPS – Nasazení a provoz softwarových systémů
+  {
+    area: "OPS – Vývoj a nasazení softwarových systémů (PA165 || PV179, SA200)",
+    questions: [
+      "Jaké nástroje a prostředí se používají pro vývoj a nasazení rozsáhlých softwarových systémů?",
+      "Jaké jsou základní koncepty softwarových architektur z pohledu implementace a dlouhodobé údržby?",
+      "Jaké technologie podporují kontinuální integraci a nasazení (CI/CD)?",
+      "Jak volit vhodný programovací jazyk pro daný projekt?",
+      "Co je persistence a ORM v kontextu nasazení?",
+      "Uveď příklad z praxe pro vývoj a nasazení softwarových systémů."
+    ]
+  },
+  {
+    area: "OPS – Bezpečná infrastruktura (PA018 || PA211 || PB177 || PA232)",
+    questions: [
+      "Jaké aspekty ovlivňují bezpečnost systému na úrovni jeho infrastruktury?",
+      "Co je síťová bezpečnost a jak se zajišťuje?",
+      "Jaké kyberbezpečnostní hrozby a příklady útoků znáš?",
+      "Jak probíhá návrh bezpečnostních mechanismů?",
+      "Jak probíhá detekce zranitelností a penetrační testování?",
+      "Jak se provádí analýza bezpečnostních útoků?",
+      "Uveď příklad z praxe pro bezpečnou infrastrukturu."
+    ]
+  },
+  {
+    area: "OPS – Cloud computing (PA200, PA234)",
+    questions: [
+      "Co je IaaS, PaaS a SaaS cloud?",
+      "Jaké jsou koncepty a principy návrhu aplikací pro cloudové prostředí?",
+      "Jaké cloudové služby existují v kontextu PaaS cloudu?",
+      "Jaké služby se používají pro ukládání dat v cloudu?",
+      "Jak zajistit kvalitu aplikací v cloudovém prostředí?",
+      "Jak řešit výkonnost, škálovatelnost a dostupnost v cloudu?",
+      "Jak zajistit bezpečnost aplikací v cloudovém prostředí?",
+      "Uveď příklad z praxe pro cloud computing."
+    ]
+  },
+  {
+    area: "OPS – Operační systémy (PV065, PV077, PV175)",
+    questions: [
+      "Jak funguje jádro operačního systému UNIX?",
+      "Jak probíhá správa paměti a zařízení jádrem v UNIXu?",
+      "Jaká je základní konfigurace a správa uživatelů v UNIXu?",
+      "Jaké síťové služby poskytuje UNIX?",
+      "Jaké jsou principy vývoje a vývojové prostředí v UNIXu?",
+      "Jak se v UNIXu pracuje s procesy, soubory a vstupními/výstupními operacemi?",
+      "Jaká je základní konfigurace a správa uživatelů v MS Windows?",
+      "Jak funguje souborový systém NTFS?",
+      "Jak spravovat HW zařízení a ovladače v MS Windows?",
+      "Jaké jsou základy skriptování v MS Windows?",
+      "Uveď příklad z praxe pro operační systémy."
+    ]
+  },
+  {
+    area: "OPS – NoSQL databáze (PA195)",
+    questions: [
+      "Jaké jsou principy a taxonomie NoSQL databází?",
+      "Jak fungují distribuované databáze a jak se zajišťuje konzistence?",
+      "Jaká je architektura a základní charakteristika key-value úložišť?",
+      "Jak fungují dokumentové databáze?",
+      "Co jsou column-family úložiště a jak fungují?",
+      "Jaká je architektura a použití grafových databází?",
+      "Uveď příklad z praxe pro NoSQL databáze."
+    ]
+  }
+];
+
+// Flatten all questions with their area
+const allQuestions = [];
+topics.forEach(topic => {
+  topic.questions.forEach(q => {
+    allQuestions.push({ area: topic.area, question: q });
+  });
+});
+
+function generate() {
+  const idx = Math.floor(Math.random() * allQuestions.length);
+  const picked = allQuestions[idx];
+  document.getElementById("question").textContent =
+    picked.question + " [" + picked.area + "]";
+}
+
+// Show all topics
+const ol = document.getElementById("all-topics");
+topics.forEach(topic => {
+  const li = document.createElement("li");
+  li.innerHTML = "<strong>" + topic.area + "</strong><ul>" +
+    topic.questions.map(q => "<li>" + q + "</li>").join("") +
+    "</ul>";
+  ol.appendChild(li);
+});
+</script>
+
+</body>
+</html>
